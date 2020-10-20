@@ -80,43 +80,14 @@
 		</dependency>
 	</dependencies>
 
-	<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <jvmArguments>${argLine}</jvmArguments>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>start-spring-boot</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>stop-spring-boot</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+
+            <!-- Runs JUnit tests under code coverage and creates a coverage report (target/site/jacoco/index.html). -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -130,12 +101,26 @@
                     </execution>
                     <execution>
                         <id>default-report</id>
-                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>default-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                            </rules>
+                        </configuration>
+                    </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>com/eldisol/jacoboot/JacobootApplication.class</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
