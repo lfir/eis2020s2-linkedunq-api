@@ -22,31 +22,34 @@ public class UserServiceTest {
 
     @BeforeEach
     public void beforeEach() {
-        usuario = new User("test", "testpw");
+        usuario = new User("nick", "pass", "fname", "lname", "email");
         userService.create(usuario);
     }
 
     @Test
     public void traigoUnUsuarioDesdeLaBasePorSuUsername() {
-        usuario = userService.findByUsername("test");
+        usuario = userService.findByUsername("nick");
         Assert.assertNotNull(usuario.getId());
-        Assert.assertEquals("test", usuario.getUsername());
-        Assert.assertEquals("testpw", usuario.getPassword());
+        Assert.assertEquals("nick", usuario.getUsername());
+        Assert.assertEquals("pass", usuario.getPassword());
+        Assert.assertEquals("fname", usuario.getFirstName());
+        Assert.assertEquals("lname", usuario.getLastName());
+        Assert.assertEquals("email", usuario.getEmail());
     }
 
     @Test
     public void validoUnLogInExitoso() {
-        Assert.assertTrue(userService.validateUser("test", "testpw"));
+        Assert.assertTrue(userService.validateUser("nick", "pass"));
     }
 
     @Test
     public void validoUnLogInConContraseniaIncorrecta() {
-        Assert.assertFalse(userService.validateUser("test", "wptset"));
+        Assert.assertFalse(userService.validateUser("nick", ""));
     }
 
     @Test
     public void validoUnLogInConUnUsuarioQueNoExiste() {
-        Assert.assertThrows(HibernateException.class, () -> userService.validateUser("tset", "testpw"));
+        Assert.assertThrows(HibernateException.class, () -> userService.validateUser("", "pass"));
     }
 
     @AfterEach
