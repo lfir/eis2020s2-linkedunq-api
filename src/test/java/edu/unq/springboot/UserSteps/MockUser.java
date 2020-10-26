@@ -1,4 +1,4 @@
-package edu.unq.springboot.user;
+package edu.unq.springboot.UserSteps;
 
 public class MockUser {
     String name;
