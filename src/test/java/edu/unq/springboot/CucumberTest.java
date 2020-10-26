@@ -1,5 +1,6 @@
 package edu.unq.springboot;
 
+import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.runner.RunWith;
 
 import io.cucumber.junit.Cucumber;
