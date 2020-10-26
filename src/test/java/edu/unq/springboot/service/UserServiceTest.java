@@ -49,7 +49,7 @@ public class UserServiceTest {
 
     @Test
     public void validoUnLogInConUnUsuarioQueNoExiste() {
-        Assert.assertThrows(HibernateException.class, () -> userService.validateUser("", "pass"));
+        Assert.assertFalse(userService.validateUser("", "pass"));
     }
 
     @AfterEach

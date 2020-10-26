@@ -25,7 +25,16 @@ public class AccountController {
         } else {
             return "Error";
         }
+    }
 
+    @RequestMapping(method = { RequestMethod.POST }, value = { "/login" })
+    @ResponseBody
+    public String logInUser( @RequestBody User user) {
+        if (userService.validateUser(user.getUsername(), user.getUsername())) {
+            return "OK";
+        } else {
+            return "Error";
+        }
     }
 }
 

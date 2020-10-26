@@ -26,8 +26,7 @@ public class UserService {
 
     public Boolean validateUser(String username, String password) {
         User usuario = userRepository.findByUsername(username);
-        if (usuario == null) throw new HibernateException("No existe el usuario " + username);
-        return password.equals(usuario.getPassword());
+        return usuario != null && password.equals(usuario.getPassword());
     }
 
     public void deleteAll() {
