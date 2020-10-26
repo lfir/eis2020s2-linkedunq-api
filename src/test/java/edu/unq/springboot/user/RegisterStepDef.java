@@ -27,7 +27,6 @@ import io.cucumber.java.en.When;
 @CucumberContextConfiguration
 @WebMvcTest(AccountController.class)
 public class RegisterStepDef {
-    @Autowired
     private MockMvc mvc;
 
     ResultActions action;

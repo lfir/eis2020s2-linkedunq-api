@@ -19,8 +19,13 @@ public class AccountController {
     @RequestMapping(method = { RequestMethod.POST }, value = { "/register" })
     @ResponseBody
     public String registerNewUser( @RequestBody User user) {
-        userService.create(user);
-        return "Ok";
+        if (userService.findByUsername(user.getUsername()) == null) {
+            userService.create(user);
+            return "OK";
+        } else {
+            return "Error";
+        }
+
     }
 }
 
