@@ -12,10 +12,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import edu.unq.springboot.controllers.AccountController;
 import edu.unq.springboot.models.User;
+import edu.unq.springboot.service.UserService;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -34,6 +36,8 @@ public class RegisterStepDef {
 
     ResultActions action;
 
+    @MockBean
+    UserService userservice;
     @When("Request to register a new user")
     public void request_to_register_a_new_user() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
