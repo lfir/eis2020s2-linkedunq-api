@@ -22,7 +22,12 @@ public class UserServiceTest {
 
     @BeforeEach
     public void beforeEach() {
-        usuario = new User("nick", "pass", "fname", "lname", "email");
+        usuario = new User();
+        usuario.setEmail("email");
+        usuario.setFirstName("fname");
+        usuario.setLastName("lname");
+        usuario.setPassword("pass");
+        usuario.setUsername("nick");
         userService.create(usuario);
     }
 
