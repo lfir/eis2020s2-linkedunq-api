@@ -29,6 +29,8 @@ public class UserServiceTest {
         usuario.setPassword("pass");
         usuario.setUsername("nick");
         userService.create(usuario);
+        User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "email");
+        userService.create(usuarioDos);
     }
 
     @Test
