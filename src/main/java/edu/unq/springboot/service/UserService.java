@@ -20,6 +20,10 @@ public class UserService {
         return userRepository.save(usuario);
     }
 
+    public User update(User usuario) {
+        return userRepository.save(usuario);
+    }
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -32,4 +36,5 @@ public class UserService {
     public void deleteAll() {
         userRepository.deleteAll();
     }
+
 }

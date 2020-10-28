@@ -1,10 +1,8 @@
 package edu.unq.springboot.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -20,6 +18,8 @@ public class User {
     @Column(length = 50)
     private String lastName;
     private String email;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Job> jobs;
 
     public User() {
 
@@ -32,6 +32,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.jobs = new ArrayList<Job>();
     }
 
     public Long getId() {
@@ -76,5 +77,11 @@ public class User {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public List<Job> getJobs() { return jobs; }
+
+    public void addJob(Job job) {
+        jobs.add(job);
     }
 }
