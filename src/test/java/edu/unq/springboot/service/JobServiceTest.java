@@ -1,0 +1,91 @@
+package edu.unq.springboot.service;
+
+import edu.unq.springboot.models.Job;
+import edu.unq.springboot.models.User;
+import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
+public class JobServiceTest {
+
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private JobService jobService;
+
+    @BeforeEach
+    public void beforeEach() {
+        User usuario = new User("Ricardo", "password", "firstname", "lastname", "ricardo@gmail.com");
+        usuario = userService.create(usuario);
+        Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        userService.addJob(trabajo, usuario);
+    }
+
+    @Test
+    public void obtengoUnTrabajoDeUnUsuarioYLoActualizo() {
+        User usuario = userService.findByUsername("Ricardo");
+        Job trabajo = usuario.getJobs().get(0);
+
+        trabajo.setTitulo("Nuevo titulo");
+        trabajo.setDescripcion("Nueva descripcion");
+        trabajo.setFechaInicioTrabajo(LocalDate.parse("2012-12-22"));
+        trabajo.setFechaFinTrabajo(LocalDate.parse("2012-12-22"));
+        jobService.update(trabajo);
+
+        usuario = userService.findByUsername("Ricardo");
+        trabajo = usuario.getJobs().get(0);
+        Assert.assertNotNull(trabajo.getId());
+        Assert.assertEquals("Nuevo titulo", trabajo.getTitulo());
+        Assert.assertEquals("Nueva descripcion", trabajo.getDescripcion());
+        Assert.assertEquals("2012-12-22", trabajo.getFechaInicioTrabajo().toString());
+        Assert.assertEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
+    }
+
+    @Test
+    public void obtengoTodosLosTrabajosDeUnUsuarioPorSuUsername() {
+        User usuario1 = new User("Hernan", "password", "firstname", "lastname", "hernan@gmail.com");
+        usuario1 = userService.create(usuario1);
+        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        userService.addJob(trabajo1, usuario1);
+
+        User usuario2 = new User("Pedro", "password", "firstname", "lastname", "pedro@gmail.com");
+        usuario2 = userService.create(usuario2);
+        Job trabajo2 = new Job(usuario2, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo3 = new Job(usuario2, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        usuario2 = userService.addJob(trabajo2, usuario2);
+        userService.addJob(trabajo3, usuario2);
+
+        User usuario3 = userService.findByUsername("Ricardo");
+        Job trabajo4 = new Job(usuario3, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo5 = new Job(usuario3, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo6 = new Job(usuario3, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        usuario3 = userService.addJob(trabajo4, usuario3);
+        usuario3 = userService.addJob(trabajo5, usuario3);
+        userService.addJob(trabajo6, usuario3);
+
+        List<Job> trabajos1 = jobService.findByUsername("Hernan");
+        Assert.assertEquals(1, trabajos1.size());
+
+        List<Job> trabajos2 = jobService.findByUsername("Pedro");
+        Assert.assertEquals(2, trabajos2.size());
+
+        List<Job> trabajos3 = jobService.findByUsername("Ricardo");
+        Assert.assertEquals(4, trabajos3.size());
+    }
+
+    @AfterEach
+    public void afterEach() {
+        userService.deleteAll();
+    }
+
+}

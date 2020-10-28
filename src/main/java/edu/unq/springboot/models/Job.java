@@ -2,7 +2,6 @@ package edu.unq.springboot.models;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 public class Job {
@@ -29,6 +28,10 @@ public class Job {
 
     public Long getId() {
         return id;
+    }
+
+    public User getOwner() {
+        return owner;
     }
 
     public String getTitulo() {

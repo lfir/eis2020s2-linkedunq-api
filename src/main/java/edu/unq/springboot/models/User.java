@@ -17,6 +17,7 @@ public class User {
     private String firstName;
     @Column(length = 50)
     private String lastName;
+    @Column(unique = true)
     private String email;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Job> jobs;
@@ -24,7 +25,6 @@ public class User {
     public User() {
 
     }
-
 
     public User(String username, String password, String firstName, String lastName, String email) {
         this.username = username;
@@ -82,6 +82,7 @@ public class User {
     public List<Job> getJobs() { return jobs; }
 
     public void addJob(Job job) {
-        jobs.add(job);
+        this.jobs.add(job);
     }
+
 }
