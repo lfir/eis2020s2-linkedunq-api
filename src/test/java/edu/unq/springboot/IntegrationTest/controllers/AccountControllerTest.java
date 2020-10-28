@@ -36,7 +36,9 @@ public class AccountControllerTest {
     @Autowired
     private UserService userService;
     private User user;
-    private String json;
+    private User user2;
+    private String jsonUser;
+    private String jsonUser2;
 
     @Autowired
     private MockMvc mvc;
@@ -47,20 +49,37 @@ public class AccountControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         user = new User("Jose123","123456","Jose","Rodrigues","jose@gmial.com");
-        json = mapper.writeValueAsString(user);
+        user2 = new User("Jose123", "123456", "Jose", "Gonzales", "gonzales@gmail.com");
+        jsonUser = mapper.writeValueAsString(user);
+        jsonUser2 = mapper.writeValueAsString(user2);
 
     }
 
     @Test
     public void RequestParaRegistrarUnNuevoUsuario () throws Exception {
         action = mvc.perform(post("/register")
-                .content(json)
+                .content(jsonUser)
                 .contentType(MediaType.APPLICATION_JSON));
 
         ResultMatcher result = MockMvcResultMatchers.content().string("Registered");
         action.andExpect(result);
     }
 
+    @Test
+    public void RegistroUnNuevoUsuarioPeroElUsuarioYaExiste () throws Exception {
+        // Registro un usuario con Jose123 como usuario
+        mvc.perform(post("/register")
+                .content(jsonUser)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        // Registro otro usuario con el mismo usuario
+        action = mvc.perform(post("/register")
+                .content(jsonUser)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        ResultMatcher result = MockMvcResultMatchers.content().string("Error");
+        action.andExpect(result);
+    }
 
     @AfterEach
     public void afterEach() {
