@@ -1,8 +1,7 @@
-package edu.unq.springboot.service;
+package edu.unq.springboot.integrationTest.controllers.service;
 
 import edu.unq.springboot.models.User;
 import edu.unq.springboot.repository.UserRepository;
-import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

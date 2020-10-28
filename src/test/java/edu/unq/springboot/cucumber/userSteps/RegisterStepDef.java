@@ -1,4 +1,4 @@
-package edu.unq.springboot.UserSteps;
+package edu.unq.springboot.cucumber.userSteps;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import edu.unq.springboot.controllers.AccountController;
+import edu.unq.springboot.integrationTest.controllers.AccountController;
 import edu.unq.springboot.models.User;
-import edu.unq.springboot.service.UserService;
+import edu.unq.springboot.integrationTest.controllers.service.UserService;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

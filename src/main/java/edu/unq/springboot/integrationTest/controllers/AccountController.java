@@ -1,16 +1,11 @@
-package edu.unq.springboot.controllers;
+package edu.unq.springboot.integrationTest.controllers;
 
 import edu.unq.springboot.models.User;
-import edu.unq.springboot.repository.UserRepository;
-import edu.unq.springboot.service.UserService;
+import edu.unq.springboot.integrationTest.controllers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 @RestController
 @Validated
 public class AccountController {
@@ -21,7 +16,7 @@ public class AccountController {
     public String registerNewUser( @RequestBody User user) {
         if (userService.findByUsername(user.getUsername()) == null) {
             userService.create(user);
-            return "OK";
+            return "Registered";
         } else {
             return "Error";
         }

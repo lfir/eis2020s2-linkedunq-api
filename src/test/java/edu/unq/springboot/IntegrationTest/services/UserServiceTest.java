@@ -1,5 +1,6 @@
-package edu.unq.springboot.service;
+package edu.unq.springboot.IntegrationTest.services;
 
+import edu.unq.springboot.integrationTest.controllers.service.UserService;
 import edu.unq.springboot.models.User;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
