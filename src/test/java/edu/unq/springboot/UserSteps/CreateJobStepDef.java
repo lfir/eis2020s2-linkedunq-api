@@ -28,8 +28,8 @@ public class CreateJobStepDef {
     
     @Then("The new job is created and saved")
     public void response_ok() throws Exception {
-        action.andExpect(status().isOk());
-        action.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
+        action.andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
     }
 
 }
