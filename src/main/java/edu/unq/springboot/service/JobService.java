@@ -21,8 +21,7 @@ public class JobService {
         return jobRepository.save(trabajo);
     }
 
-    List<Job> findByUsername(String username) {
+    public List<Job> findByUsername(String username) {
         return jobRepository.findByUsername(username);
     }
-
 }

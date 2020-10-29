@@ -22,8 +22,6 @@ import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 
 @RunWith(SpringRunner.class)
-@CucumberContextConfiguration
-@WebMvcTest
 public class RegisterStepDef {
     @Autowired
     private MockMvc mvc;

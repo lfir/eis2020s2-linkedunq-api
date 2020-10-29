@@ -1,18 +1,15 @@
 package edu.unq.springboot.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import edu.unq.springboot.models.CreateJobRequestBody;
 import edu.unq.springboot.models.Job;
@@ -40,5 +37,10 @@ public class JobController {
 
 		return "OK";
 	}
-
+	
+	@GetMapping("/jobs")
+	@ResponseBody
+	public List<Job> getUserJobs(@RequestParam(value = "username", required = true) String username) {
+		return jobService.findByUsername(username);
+	}
 }

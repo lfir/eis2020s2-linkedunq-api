@@ -7,6 +7,15 @@ public class CreateJobRequestBody {
 	private String fechaInicioTrabajo;
 	private String fechaFinTrabajo;
 	
+	public CreateJobRequestBody(String username, String titulo, String descripcion, String fechaInicioTrabajo,
+			String fechaFinTrabajo) {
+		this.username = username;
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.fechaInicioTrabajo = fechaInicioTrabajo;
+		this.fechaFinTrabajo = fechaFinTrabajo;
+	}
+
 	public String getUsername() {
 		return username;
 	}
