@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class CreateJobRequestBodyTest {
 	@Test
-	public void receivedRequestGeneratesValidJobAttributes() {
+	void receivedRequestGeneratesValidJobAttributes() {
 		CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01");
 		assert(String.class.isInstance(bd.getUsername()));
 		assert(String.class.isInstance(bd.getDescripcion()));
