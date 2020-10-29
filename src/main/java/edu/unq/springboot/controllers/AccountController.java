@@ -1,8 +1,10 @@
-package edu.unq.springboot.integrationTest.controllers;
+package edu.unq.springboot.controllers;
 
 import edu.unq.springboot.models.User;
-import edu.unq.springboot.integrationTest.controllers.service.UserService;
+import edu.unq.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,22 +15,22 @@ public class AccountController {
     UserService userService;
     @RequestMapping(method = { RequestMethod.POST }, value = { "/register" })
     @ResponseBody
-    public String registerNewUser( @RequestBody User user) {
+    public ResponseEntity registerNewUser( @RequestBody User user) {
         if (userService.findByUsername(user.getUsername()) == null) {
             userService.create(user);
-            return "Registered";
+            return ResponseEntity.ok("Registered");
         } else {
-            return "Error";
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error");
         }
     }
 
     @RequestMapping(method = { RequestMethod.POST }, value = { "/login" })
     @ResponseBody
-    public String logInUser( @RequestBody User user) {
-        if (userService.validateUser(user.getUsername(), user.getUsername())) {
-            return "OK";
+    public ResponseEntity logInUser( @RequestBody User user) {
+        if (userService.validateUser(user.getUsername(),user.getPassword())) {
+            return ResponseEntity.ok("OK");
         } else {
-            return "Error";
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error");
         }
     }
 }

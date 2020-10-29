@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import edu.unq.springboot.integrationTest.controllers.AccountController;
+import edu.unq.springboot.controllers.AccountController;
 import edu.unq.springboot.models.User;
-import edu.unq.springboot.integrationTest.controllers.service.UserService;
+import edu.unq.springboot.service.UserService;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)
 @CucumberContextConfiguration
@@ -30,6 +32,9 @@ public class RegisterStepDef {
     private MockMvc mvc;
 
     ResultActions action;
+
+    @Autowired
+    UserService userService;
 
     @MockBean
     UserService userservice;
@@ -47,13 +52,19 @@ public class RegisterStepDef {
 
     @When("Request to login as user")
     public void request_to_login_as_user() throws Exception {
+
+        User user = new User("Jose123","123","Jose","Rodrigues","jose@gmial.com");
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        User user = new User("Jose123","123456","Jose","Rodrigues","jose@gmail.com");
-        String json = mapper.writeValueAsString(user);
+        String jsonUser = mapper.writeValueAsString(user);
+        userService.create(user);
+        // Inicio sesión
         action = mvc.perform(post("/login")
-                .content(json)
+                .content(jsonUser).contentType(jsonUser)
                 .contentType(MediaType.APPLICATION_JSON));
+
+        ResultMatcher result = MockMvcResultMatchers.content().string("OK");
+        action.andExpect(result);
 
     }
 
