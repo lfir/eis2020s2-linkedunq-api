@@ -1,8 +1,8 @@
 package edu.unq.springboot.service;
 
+import edu.unq.springboot.models.Job;
 import edu.unq.springboot.models.User;
 import edu.unq.springboot.repository.UserRepository;
-import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +20,11 @@ public class UserService {
         return userRepository.save(usuario);
     }
 
+    public User addJob(Job trabajo, User usuario) {
+        usuario.addJob(trabajo);
+        return userRepository.save(usuario);
+    }
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -32,4 +37,5 @@ public class UserService {
     public void deleteAll() {
         userRepository.deleteAll();
     }
+
 }

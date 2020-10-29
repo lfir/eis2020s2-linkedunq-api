@@ -1,5 +1,6 @@
 package edu.unq.springboot.service;
 
+import edu.unq.springboot.models.Job;
 import edu.unq.springboot.models.User;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
@@ -11,37 +12,40 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class UserServiceTest {
 
     @Autowired
     private UserService userService;
-    private User usuario;
 
     @BeforeEach
     public void beforeEach() {
-        usuario = new User();
+        User usuario = new User();
         usuario.setEmail("email");
         usuario.setFirstName("fname");
         usuario.setLastName("lname");
         usuario.setPassword("pass");
         usuario.setUsername("nick");
         userService.create(usuario);
-        User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "email");
+        User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo");
         userService.create(usuarioDos);
     }
 
     @Test
     public void traigoUnUsuarioDesdeLaBasePorSuUsername() {
-        usuario = userService.findByUsername("nick");
+        User usuario = userService.findByUsername("nick");
         Assert.assertNotNull(usuario.getId());
         Assert.assertEquals("nick", usuario.getUsername());
         Assert.assertEquals("pass", usuario.getPassword());
         Assert.assertEquals("fname", usuario.getFirstName());
         Assert.assertEquals("lname", usuario.getLastName());
         Assert.assertEquals("email", usuario.getEmail());
+        Assert.assertEquals(0 , usuario.getJobs().size());
     }
 
     @Test
@@ -57,6 +61,22 @@ public class UserServiceTest {
     @Test
     public void validoUnLogInConUnUsuarioQueNoExiste() {
         Assert.assertFalse(userService.validateUser("", "pass"));
+    }
+
+    @Test
+    public void agregoUnTrabajoAUnUsuario() {
+        User usuario = userService.findByUsername("nick");
+        Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+
+        usuario = userService.addJob(trabajo, usuario);
+        Assert.assertEquals(1, usuario.getJobs().size());
+        trabajo = usuario.getJobs().get(0);
+        Assert.assertNotNull(trabajo.getId());
+        Assert.assertEquals(usuario, trabajo.getOwner());
+        Assert.assertEquals("Titulo", trabajo.getTitulo());
+        Assert.assertEquals("Descripcion", trabajo.getDescripcion());
+        Assert.assertEquals("2010-10-20", trabajo.getFechaInicioTrabajo().toString());
+        Assert.assertEquals("2015-08-10", trabajo.getFechaFinTrabajo().toString());
     }
 
     @AfterEach

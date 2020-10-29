@@ -3,13 +3,6 @@ package edu.unq.springboot.UserSteps;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
-import edu.unq.springboot.controllers.AccountController;
-import edu.unq.springboot.models.User;
-import edu.unq.springboot.service.UserService;
-import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,12 +12,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import edu.unq.springboot.models.User;
+import edu.unq.springboot.service.UserService;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.spring.CucumberContextConfiguration;
 
 @RunWith(SpringRunner.class)
-@CucumberContextConfiguration
-@WebMvcTest(AccountController.class)
 public class RegisterStepDef {
     @Autowired
     private MockMvc mvc;
