@@ -1,4 +1,4 @@
-package edu.unq.springboot.models;
+package edu.unq.springboot.IntegrationTest.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ public class User {
     public User() {
 
     }
-
     public User(String username, String password, String firstName, String lastName, String email) {
         this.username = username;
         this.password = password;

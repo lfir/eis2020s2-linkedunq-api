@@ -1,4 +1,4 @@
-package edu.unq.springboot.models;
+package edu.unq.springboot.IntegrationTest.models;
 
 import java.time.LocalDate;
 

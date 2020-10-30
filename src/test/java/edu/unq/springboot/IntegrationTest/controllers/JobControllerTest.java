@@ -1,4 +1,4 @@
-package edu.unq.springboot.controllers;
+package edu.unq.springboot.IntegrationTest.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.unq.springboot.controllers.JobController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,9 +23,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import edu.unq.springboot.models.CreateJobRequestBody;
-import edu.unq.springboot.models.Job;
-import edu.unq.springboot.models.User;
+import edu.unq.springboot.IntegrationTest.models.CreateJobRequestBody;
+import edu.unq.springboot.IntegrationTest.models.Job;
+import edu.unq.springboot.IntegrationTest.models.User;
 import edu.unq.springboot.service.JobService;
 import edu.unq.springboot.service.UserService;
 

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.unq.springboot.models.CreateJobRequestBody;
-import edu.unq.springboot.models.Job;
-import edu.unq.springboot.models.User;
+import edu.unq.springboot.IntegrationTest.models.CreateJobRequestBody;
+import edu.unq.springboot.IntegrationTest.models.Job;
+import edu.unq.springboot.IntegrationTest.models.User;
 import edu.unq.springboot.service.JobService;
 import edu.unq.springboot.service.UserService;
 
