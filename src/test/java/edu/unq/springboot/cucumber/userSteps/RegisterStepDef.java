@@ -1,5 +1,6 @@
 package edu.unq.springboot.cucumber.userSteps;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,7 +58,7 @@ public class RegisterStepDef {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         String jsonUser = mapper.writeValueAsString(user);
-        userService.create(user);
+        given(userService.validateUser(user.getUsername(), user.getPassword())).willReturn(true);
         // Inicio sesión
         action = mvc.perform(post("/login")
                 .content(jsonUser).contentType(jsonUser)
