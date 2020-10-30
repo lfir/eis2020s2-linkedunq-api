@@ -3,7 +3,7 @@ package edu.unq.springboot.IntegrationTest.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import edu.unq.springboot.service.UserService;
-import edu.unq.springboot.IntegrationTest.models.User;
+import edu.unq.springboot.models.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

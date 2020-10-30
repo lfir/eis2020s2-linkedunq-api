@@ -2,6 +2,7 @@ package edu.unq.springboot.IntegrationTest.models;
 
 import java.time.LocalDate;
 
+import edu.unq.springboot.models.CreateJobRequestBody;
 import org.junit.jupiter.api.Test;
 
 public class CreateJobRequestBodyTest {

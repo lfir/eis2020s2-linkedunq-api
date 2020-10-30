@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import edu.unq.springboot.IntegrationTest.models.CreateJobRequestBody;
+import edu.unq.springboot.models.CreateJobRequestBody;
 import edu.unq.springboot.service.JobService;
 import edu.unq.springboot.service.UserService;
 import io.cucumber.java.en.Then;

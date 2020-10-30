@@ -1,6 +1,6 @@
 package edu.unq.springboot.service;
 
-import edu.unq.springboot.IntegrationTest.models.Job;
+import edu.unq.springboot.models.Job;
 import edu.unq.springboot.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

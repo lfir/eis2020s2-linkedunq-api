@@ -1,6 +1,6 @@
 package edu.unq.springboot.controllers;
 
-import edu.unq.springboot.IntegrationTest.models.User;
+import edu.unq.springboot.models.User;
 import edu.unq.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,9 @@
-package edu.unq.springboot.IntegrationTest.models;
+package edu.unq.springboot.models;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.unq.springboot.models.User;
 
 import java.time.LocalDate;
 

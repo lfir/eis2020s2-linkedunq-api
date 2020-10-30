@@ -1,4 +1,4 @@
-package edu.unq.springboot.IntegrationTest.models;
+package edu.unq.springboot.models;
 
 public class CreateJobRequestBody {
 	private String username;

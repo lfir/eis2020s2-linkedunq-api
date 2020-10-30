@@ -1,6 +1,6 @@
 package edu.unq.springboot.repository;
 
-import edu.unq.springboot.IntegrationTest.models.User;
+import edu.unq.springboot.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

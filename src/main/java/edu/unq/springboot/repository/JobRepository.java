@@ -1,6 +1,6 @@
 package edu.unq.springboot.repository;
 
-import edu.unq.springboot.IntegrationTest.models.Job;
+import edu.unq.springboot.models.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

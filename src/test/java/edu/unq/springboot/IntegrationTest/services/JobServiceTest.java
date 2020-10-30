@@ -1,7 +1,7 @@
 package edu.unq.springboot.service;
 
-import edu.unq.springboot.IntegrationTest.models.Job;
-import edu.unq.springboot.IntegrationTest.models.User;
+import edu.unq.springboot.models.Job;
+import edu.unq.springboot.models.User;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
