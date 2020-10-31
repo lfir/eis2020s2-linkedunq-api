@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import edu.unq.springboot.models.Job;
+import io.cucumber.java.en.Given;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -35,11 +37,17 @@ public class CreateJobStepDef {
     private JobService jobService;
     private ResultActions action;
 
-    @When("Request to create a new job")
+    private CreateJobRequestBody bd;
+
+    @Given("A user's job")
+    public void aUserSJob() {
+        bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01");
+    }
+
+    @When("The user request to create a new job")
     public void request_to_create_a_new_job() throws Exception {
     	ObjectMapper mapper = new ObjectMapper();
     	mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01");
         String json = mapper.writeValueAsString(bd);
         action = mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON));
     }

@@ -4,6 +4,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import io.cucumber.java.en.Given;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -36,22 +37,28 @@ public class RegisterStepDef {
 
     @MockBean
     UserService userservice;
-    @When("Request to register a new user")
+
+    private User user;
+
+    @Given("A user with valid data")
+    public void user_with_valid_credentials() {
+        this.user = new User("Jose123","123","Jose","Rodrigues","jose@gmial.com");
+    }
+
+    @When("The user requests to register on the site")
     public void request_to_register_a_new_user() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        User user = new User("Jose123","123456","Jose","Rodrigues","jose@gmial.com");
-        String json = mapper.writeValueAsString(user);
+        String json = mapper.writeValueAsString(new User("Jose123","123","Jose","Rodrigues","jose@gmial.com"));
         action = mvc.perform(post("/register")
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON));
 
     }
 
-    @When("Request to login as user")
+    @When("The user login on the site")
     public void request_to_login_as_user() throws Exception {
 
-        User user = new User("Jose123","123","Jose","Rodrigues","jose@gmial.com");
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         String jsonUser = mapper.writeValueAsString(user);
@@ -66,8 +73,22 @@ public class RegisterStepDef {
 
     }
 
-    @Then("Response status code of 200")
-    public void response_ok() throws Exception {
-        action.andExpect(status().isOk());
+
+    @Given("A registered user on the site")
+    public void register_an_user_on_site() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        String json = mapper.writeValueAsString(new User("Jose123","123","Jose","Rodrigues","jose@gmial.com"));
+        mvc.perform(post("/register")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON));
+        action = mvc.perform(post("/register")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Then("The response status should be {string}")
+    public void theResponseStatusShouldBe(String statusCode) throws Exception {
+        action.andExpect(status().is(Integer.parseInt(statusCode)));
     }
 }
