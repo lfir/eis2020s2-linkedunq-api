@@ -1,7 +1,10 @@
-package edu.unq.springboot.service;
+package edu.unq.springboot.IntegrationTest.services;
 
 import edu.unq.springboot.models.Job;
 import edu.unq.springboot.models.User;
+import edu.unq.springboot.service.JobService;
+import edu.unq.springboot.service.UserService;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,12 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 @SpringBootTest
 public class JobServiceTest {
 
