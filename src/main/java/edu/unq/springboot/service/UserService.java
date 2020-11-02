@@ -38,4 +38,8 @@ public class UserService {
         userRepository.deleteAll();
     }
 
+    public void updateUser(User usuario) {
+
+
+    }
 }
