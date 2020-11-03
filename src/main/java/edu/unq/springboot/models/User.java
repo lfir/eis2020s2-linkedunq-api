@@ -1,5 +1,7 @@
 package edu.unq.springboot.models;
 
+import org.springframework.data.jpa.repository.Modifying;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Job> jobs;
     @Column(length = 50)
+
     private String link=null;
 
     public User() {
@@ -89,7 +92,7 @@ public class User {
     }
 
     public void generateLink() {
-       this.link="http://localhost:3000/:nelson";
+       this.link="http://localhost:3000/repo/:"+this.getUsername();
     }
 
     public String getLink() {

@@ -5,6 +5,7 @@ import edu.unq.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,14 +49,18 @@ public class AccountController {
     @ResponseBody
     public ResponseEntity generateLink(@RequestBody User usuario) {
         if (userService.findByUsername(usuario.getUsername()).getLink() == null) {
-            usuario.generateLink();
-            userService.updateUser(usuario);
-            return ResponseEntity.ok(usuario.getLink());
+            User user=userService.findByUsername(usuario.getUsername());
+            user.generateLink();
+            userService.updateUser(user);
+            System.out.println(usuario.getLink());
+            return ResponseEntity.ok(user.getLink());
         } else {
-            return ResponseEntity.ok(usuario.getLink());
+            return ResponseEntity.ok(userService.findByUsername(usuario.getUsername()).getLink());
 
         }
     }
+
+
 
 
 }

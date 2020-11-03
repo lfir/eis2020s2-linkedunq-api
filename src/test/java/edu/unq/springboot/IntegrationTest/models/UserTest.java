@@ -9,7 +9,7 @@ public class UserTest {
     void UsuarioGeneraUnLink() {
         User usuario = new User("nelson", "1234", "Nelson", "Gonzalez", "nelgonzalez88@gmail.com");
        usuario.generateLink();
-        Assert.assertEquals(usuario.getLink(),"http://localhost:3000/:nelson");
+        Assert.assertEquals(usuario.getLink(),"http://localhost:3000/repo/:nelson");
     }
     @Test
     void UserCreateHaveNotLink() {
