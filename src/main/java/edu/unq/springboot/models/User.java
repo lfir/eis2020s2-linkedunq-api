@@ -1,5 +1,7 @@
 package edu.unq.springboot.models;
 
+import org.springframework.data.jpa.repository.Modifying;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,9 @@ public class User {
     private String email;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Job> jobs;
+    @Column(length = 50)
+
+    private String link=null;
 
     public User() {
 
@@ -32,7 +37,9 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.jobs = new ArrayList<Job>();
+
     }
+
 
     public Long getId() {
         return id;
@@ -84,4 +91,11 @@ public class User {
         this.jobs.add(job);
     }
 
+    public void generateLink() {
+       this.link="http://localhost:3000/repo/:"+this.getUsername();
+    }
+
+    public String getLink() {
+        return this.link;
+    }
 }
