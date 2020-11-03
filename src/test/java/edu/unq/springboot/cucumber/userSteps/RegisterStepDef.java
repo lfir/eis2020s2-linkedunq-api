@@ -2,6 +2,7 @@ package edu.unq.springboot.cucumber.userSteps;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import io.cucumber.java.en.Given;
@@ -49,7 +50,7 @@ public class RegisterStepDef {
     public void request_to_register_a_new_user() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        String json = mapper.writeValueAsString(new User("Jose123","123","Jose","Rodrigues","jose@gmial.com"));
+        String json = mapper.writeValueAsString(user);
         action = mvc.perform(post("/register")
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON));
@@ -85,6 +86,12 @@ public class RegisterStepDef {
         action = mvc.perform(post("/register")
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON));
+
+    }
+
+    @When("The user requests to generate a portfolio's link")
+    public void theUserRequestsToGenerateAPortfolioSLink() throws Exception {
+        action = action.andDo(mvcResult -> mvc.perform(put("/link")));
     }
 
     @Then("The response status should be {string}")
