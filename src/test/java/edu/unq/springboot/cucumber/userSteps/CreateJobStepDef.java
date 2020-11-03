@@ -1,5 +1,6 @@
 package edu.unq.springboot.cucumber.userSteps;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import edu.unq.springboot.models.CreateJobRequestBody;
 import edu.unq.springboot.models.Job;
@@ -43,13 +43,14 @@ public class CreateJobStepDef {
     @Autowired @MockBean
     private JobService jobService;
     private ResultActions action;
+    private String jsonObject;
+    @Autowired
+	private ObjectMapper mapper;
 
     @When("Request to create a new job")
     public void request_to_create_a_new_job() throws Exception {
-    	ObjectMapper mapper = new ObjectMapper();
-    	mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01");
-        String json = mapper.writeValueAsString(bd);
+        String json = this.mapper.writeValueAsString(bd);
         action = mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON));
     }
     
@@ -62,6 +63,21 @@ public class CreateJobStepDef {
     	given(jobService.findByUsername(usuarioDos.getUsername())).willReturn(jobDataAsList);
 
     	action = mvc.perform(get("/jobs").param("username", usuarioDos.getUsername()));
+    }
+    
+    @When("Request to create a new job with invalid date '2010-31-01'")
+    public void request_create_new_job_invalid_date() throws Exception {
+        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-31-01", "2010-01-01");
+        this.jsonObject = this.mapper.writeValueAsString(bd);
+    }
+    
+    @Then("The new job is not saved and an error is produced")
+    public void create_job_error_response() throws Exception {
+    	assertThatThrownBy(() -> mvc.perform(post("/jobs/create")
+    			.content(this.jsonObject)
+    			.contentType(MediaType.APPLICATION_JSON))
+    			.andExpect(status().isInternalServerError()))
+    	.hasMessageContaining("Invalid value");
     }
     
     @Then("List of 'user0' jobs is received")
