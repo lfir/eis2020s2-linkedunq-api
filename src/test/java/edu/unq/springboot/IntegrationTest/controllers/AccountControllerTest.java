@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -99,7 +100,27 @@ public class AccountControllerTest {
 
         ResultMatcher result = MockMvcResultMatchers.content().string("Error");
         action.andExpect(result);
+    }  @Test
+    public void RequestParaLink () throws  Exception {
+        // Registro un usuario con Jose123 como usuario
+        mvc.perform(post("/register")
+                .content(jsonUser)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        // Inicio sesión
+        action = mvc.perform(post("/login")
+                .content(jsonUser).contentType(jsonUser)
+                .contentType(MediaType.APPLICATION_JSON));
+        action = mvc.perform(put("/link")
+                .content(jsonUser).contentType(jsonUser)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        ResultMatcher result = MockMvcResultMatchers.content().string("http://localhost:3000/repo/:Jose123");
+        action.andExpect(result);
     }
+
+
+
 
     @AfterEach
     public void afterEach() {
