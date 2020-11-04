@@ -47,7 +47,7 @@ public class CreateJobStepDef {
     @Autowired
 	private ObjectMapper mapper;
 
-    @When("Request to create a new job")
+    @When("A user request to create a new job")
     public void request_to_create_a_new_job() throws Exception {
         CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01");
         String json = this.mapper.writeValueAsString(bd);
@@ -65,7 +65,7 @@ public class CreateJobStepDef {
     	action = mvc.perform(get("/jobs").param("username", usuarioDos.getUsername()));
     }
     
-    @When("Request to create a new job with invalid date '2010-31-01'")
+    @When("A user request to create a new job with invalid date '2010-31-01'")
     public void request_create_new_job_invalid_date() throws Exception {
         CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-31-01", "2010-01-01");
         this.jsonObject = this.mapper.writeValueAsString(bd);

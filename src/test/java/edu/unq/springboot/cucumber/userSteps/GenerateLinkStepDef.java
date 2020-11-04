@@ -1,44 +1,41 @@
 package edu.unq.springboot.cucumber.userSteps;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.unq.springboot.models.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.Assert;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-public class GenerateLink {
+public class GenerateLinkStepDef {
     User usuario;
     String link;
 
-    @Given("User have not link that repository")
+    @Given("A user without his portfolio link")
     public void user_have_not_link_that_repository() {
          usuario = new User("nelson","1234","Nelson","Gonzalez","nelgonzalez88@gmail.com");
     }
 
-
-
-    @When("User requests to generate link")
+    @When("The user request to generate a link to they portfolio")
     public void user_requests_to_generate_link() {
       usuario.generateLink();
     }
-    @Then("a link is generated")
+
+    @Then("A link should be generated")
     public void a_link_is_generated() {
-        usuario.getLink();
+        link = usuario.getLink();
+        Assert.assertNotNull(link);
     }
 
 
 
-
-
-    @Then("User cant generate link")
+    @Then("The user should not have an associated portfolio link")
     public void user_cant_generate_link() {
-        Assert.assertEquals(usuario.getLink(),null);
+        Assert.assertNull(link);
     }
 
 
+    @When("An user have not created a link to his portfolio")
+    public void user_without_portfolio_link() {
+        link = usuario.getLink();
+    }
 }
