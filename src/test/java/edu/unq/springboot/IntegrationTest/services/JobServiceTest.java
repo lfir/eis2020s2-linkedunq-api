@@ -54,6 +54,45 @@ public class JobServiceTest {
         Assert.assertEquals("2012-12-22", trabajo.getFechaInicioTrabajo().toString());
         Assert.assertEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
     }
+    
+    @Test
+    public void obtengoUnTrabajoPorIdYUsuarioYLoActualizo() {
+        User usuario = userService.findByUsername("Ricardo");
+        Job trabajo = usuario.getJobs().get(0);
+
+        trabajo.setTitulo("Nuevo titulo");
+        trabajo.setDescripcion("Nueva descripcion");
+        trabajo.setFechaInicioTrabajo(LocalDate.parse("2012-12-22"));
+        trabajo.setFechaFinTrabajo(LocalDate.parse("2012-12-22"));
+        jobService.update(usuario.getUsername(), trabajo.getId(), trabajo);
+
+        usuario = userService.findByUsername("Ricardo");
+        trabajo = usuario.getJobs().get(0);
+        Assert.assertNotNull(trabajo.getId());
+        Assert.assertEquals("Nuevo titulo", trabajo.getTitulo());
+        Assert.assertEquals("Nueva descripcion", trabajo.getDescripcion());
+        Assert.assertEquals("2012-12-22", trabajo.getFechaInicioTrabajo().toString());
+        Assert.assertEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
+    }
+   
+    @Test
+    public void actualizoUnTrabajoConOtroIdElOriginalNoSeModifica() {
+        User usuario = userService.findByUsername("Ricardo");
+        Job trabajo = usuario.getJobs().get(0);
+
+        trabajo.setTitulo("Nuevo titulo");
+        trabajo.setDescripcion("Nueva descripcion");
+        trabajo.setFechaInicioTrabajo(LocalDate.parse("2012-12-22"));
+        trabajo.setFechaFinTrabajo(LocalDate.parse("2012-12-22"));
+        jobService.update(usuario.getUsername(), trabajo.getId() + 1, trabajo);
+
+        usuario = userService.findByUsername("Ricardo");
+        trabajo = usuario.getJobs().get(0);
+        Assert.assertNotEquals("Nuevo titulo", trabajo.getTitulo());
+        Assert.assertNotEquals("Nueva descripcion", trabajo.getDescripcion());
+        Assert.assertNotEquals("2012-12-22", trabajo.getFechaInicioTrabajo().toString());
+        Assert.assertNotEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
+    }
 
     @Test
     public void obtengoTodosLosTrabajosDeUnUsuarioPorSuUsername() {

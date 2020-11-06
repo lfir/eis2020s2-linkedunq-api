@@ -33,6 +33,17 @@ public class JobController {
 
 		return "OK";
 	}
+	
+	@CrossOrigin
+	@PostMapping("/jobs/edit")
+	@ResponseBody
+	public String editJob(@RequestParam(value = "username", required = true) String username, 
+			@RequestParam(value = "id", required = true) Long id,
+			@RequestBody Job editedJob) {
+		jobService.update(username, id, editedJob); 
+		return "OK";
+	}
+
 	@CrossOrigin
 	@GetMapping("/jobs")
 	@ResponseBody
