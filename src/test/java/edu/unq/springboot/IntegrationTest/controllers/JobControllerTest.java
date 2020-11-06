@@ -39,10 +39,20 @@ public class JobControllerTest {
     private UserService userService;
 	@MockBean
     private JobService jobService;
+	private User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo");
+	private Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+
+	@Test
+	void whenValidInput_thenEditJobReturns200() throws Exception {
+        String json = mapper.writeValueAsString(this.trabajo);
+        mvc.perform(post("/jobs/edit")
+        	.param("username", this.usuarioDos.getUsername())
+        	.param("id", "44")
+        	.content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+	}
 
 	@Test
 	void whenValidInput_thenCreateJobReturns200() throws Exception {
-		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01");
         String json = mapper.writeValueAsString(bd);
         mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
@@ -50,8 +60,6 @@ public class JobControllerTest {
 
 	@Test
 	void whenExistingUser_thenGetUserJobsReturnsAListOfJobsAsJSON() throws Exception {
-		User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo");
-		Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
     	List<Job> jobDataAsList = new ArrayList<Job>();
     	jobDataAsList.add(trabajo);
     	given(jobService.findByUsername(usuarioDos.getUsername())).willReturn(jobDataAsList);

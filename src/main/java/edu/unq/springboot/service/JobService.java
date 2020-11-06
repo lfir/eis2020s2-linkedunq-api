@@ -18,10 +18,22 @@ public class JobService {
     }
 
     public Job update(Job trabajo) {
-        return jobRepository.save(trabajo);
+        return this.jobRepository.save(trabajo);
     }
 
-    public List<Job> findByUsername(String username) {
-        return jobRepository.findByUsername(username);
+	public void update(String username, Long id, Job editedJob) {
+		for (Job j : this.findByUsername(username)) {
+			if (j.getId().equals(id)) {
+				j.setDescripcion(editedJob.getDescripcion());
+				j.setTitulo(editedJob.getTitulo());
+				j.setFechaInicioTrabajo(editedJob.getFechaInicioTrabajo());
+				j.setFechaFinTrabajo(editedJob.getFechaFinTrabajo());
+				this.jobRepository.save(j);
+			}
+		}
+	}
+
+	public List<Job> findByUsername(String username) {
+        return this.jobRepository.findByUsername(username);
     }
 }
