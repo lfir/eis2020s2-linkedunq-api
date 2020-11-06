@@ -4,16 +4,14 @@ import edu.unq.springboot.models.Job;
 import edu.unq.springboot.models.User;
 import edu.unq.springboot.service.JobService;
 import edu.unq.springboot.service.UserService;
-
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -85,6 +83,21 @@ public class JobServiceTest {
 
         List<Job> trabajos3 = jobService.findByUsername("Ricardo");
         Assert.assertEquals(4, trabajos3.size());
+    }
+
+    @Transactional
+    @Test
+    public void borroUnTrabajoDeUnUsuarioPorId(){
+        User usuario1 = new User("Laura", "password", "firstname", "lastname", "laura@dominio.com");
+        usuario1 = userService.create(usuario1);
+        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+
+        userService.addJob(trabajo1, usuario1);
+        Assert.assertEquals(1, jobService.findByUsername(usuario1.getUsername()).size());
+
+        jobService.deleteJobById(jobService.findByUsername(usuario1.getUsername()).get(0).getId());
+        Assert.assertEquals(0, jobService.findByUsername(usuario1.getUsername()).size());
+
     }
 
     @AfterEach
