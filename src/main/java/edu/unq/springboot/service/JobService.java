@@ -36,4 +36,12 @@ public class JobService {
 	public List<Job> findByUsername(String username) {
         return this.jobRepository.findByUsername(username);
     }
+
+    public void deleteJobById(Long id){
+        this.jobRepository.deleteJobById(id);
+    }
+
+    public Job findJobById(Long id){
+        return jobRepository.findJobById(id);
+    }
 }

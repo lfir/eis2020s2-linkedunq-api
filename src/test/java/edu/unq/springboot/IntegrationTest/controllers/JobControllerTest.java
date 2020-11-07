@@ -2,8 +2,7 @@ package edu.unq.springboot.IntegrationTest.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,5 +70,20 @@ public class JobControllerTest {
     	String expectedResponseBody = mapper.writeValueAsString(jobDataAsList);
     	String actualResponseBody = mvcResult.getResponse().getContentAsString();
     	assertThat(actualResponseBody).isEqualToIgnoringWhitespace(expectedResponseBody);
+	}
+
+	@Test
+	void whenExistingJob_thenDeleteJobReturns200() throws Exception {
+		User usuario = new User("Artyom", "pass", "fname", "lname", "correo");
+		Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+		given(jobService.findJobById((long) 1)).willReturn(trabajo);
+		mvc.perform(delete("/job/1")).andExpect(status().isOk());
+
+	}
+
+	@Test
+	void whenJobNotFound_thenDeleteJobReturns404() throws Exception {
+		given(jobService.findJobById((long) 1)).willReturn(null);
+		mvc.perform(delete("/job/1")).andExpect(status().isNotFound());
 	}
 }
