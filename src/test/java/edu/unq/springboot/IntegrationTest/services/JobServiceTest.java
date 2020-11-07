@@ -100,6 +100,22 @@ public class JobServiceTest {
 
     }
 
+    @Transactional
+    @Test
+    public void encuentroUnTrabajoDeUnUsuarioPorId(){
+        User usuario1 = new User("Laura", "password", "firstname", "lastname", "laura@dominio.com");
+        usuario1 = userService.create(usuario1);
+        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        userService.addJob(trabajo1, usuario1);
+
+        trabajo1 = jobService.findByUsername(usuario1.getUsername()).get(0);
+        Assert.assertNotNull(jobService.findJobById(trabajo1.getId()));
+
+        jobService.deleteJobById(trabajo1.getId());
+        Assert.assertNull(jobService.findJobById(trabajo1.getId()));
+
+    }
+
     @AfterEach
     public void afterEach() {
         userService.deleteAll();

@@ -26,6 +26,10 @@ public class JobService {
     }
 
     public void deleteJobById(Long id){
-        this.jobRepository.deleteJobByTitle(id);
+        this.jobRepository.deleteJobById(id);
+    }
+
+    public Job findJobById(Long id){
+        return jobRepository.findJobById(id);
     }
 }
