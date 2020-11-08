@@ -75,7 +75,7 @@ public class JobControllerTest {
 	@Test
 	void whenExistingJob_thenDeleteJobReturns200() throws Exception {
 		User usuario = new User("Artyom", "pass", "fname", "lname", "correo");
-		Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+		Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "https://link.com.ar");
 		given(jobService.findJobById((long) 1)).willReturn(trabajo);
 		mvc.perform(delete("/job/1")).andExpect(status().isOk());
 

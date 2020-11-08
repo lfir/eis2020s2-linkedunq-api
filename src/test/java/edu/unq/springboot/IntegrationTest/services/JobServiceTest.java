@@ -135,7 +135,7 @@ public class JobServiceTest {
     public void borroUnTrabajoDeUnUsuarioPorId(){
         User usuario1 = new User("Laura", "password", "firstname", "lastname", "laura@dominio.com");
         usuario1 = userService.create(usuario1);
-        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "https://link.com.ar");
 
         userService.addJob(trabajo1, usuario1);
         Assert.assertEquals(1, jobService.findByUsername(usuario1.getUsername()).size());
@@ -150,7 +150,7 @@ public class JobServiceTest {
     public void encuentroUnTrabajoDeUnUsuarioPorId(){
         User usuario1 = new User("Laura", "password", "firstname", "lastname", "laura@dominio.com");
         usuario1 = userService.create(usuario1);
-        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "https://link.com.ar");
         userService.addJob(trabajo1, usuario1);
 
         trabajo1 = jobService.findByUsername(usuario1.getUsername()).get(0);
