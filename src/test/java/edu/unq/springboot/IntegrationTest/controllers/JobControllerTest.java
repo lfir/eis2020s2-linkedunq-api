@@ -40,7 +40,7 @@ public class JobControllerTest {
 	@MockBean
     private JobService jobService;
 	private User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo");
-	private Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+	private Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
 
 	@Test
 	void whenValidInput_thenEditJobReturns200() throws Exception {
@@ -53,7 +53,7 @@ public class JobControllerTest {
 
 	@Test
 	void whenValidInput_thenCreateJobReturns200() throws Exception {
-        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01");
+        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01", "www.link.com");
         String json = mapper.writeValueAsString(bd);
         mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}

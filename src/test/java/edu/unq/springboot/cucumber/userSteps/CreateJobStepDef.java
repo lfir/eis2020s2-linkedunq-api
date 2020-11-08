@@ -49,7 +49,7 @@ public class CreateJobStepDef {
 
     @When("A user request to create a new job")
     public void request_to_create_a_new_job() throws Exception {
-        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01");
+        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01", "https://www.mercadolibre.com.ar/");
         String json = this.mapper.writeValueAsString(bd);
         action = mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON));
     }
@@ -57,7 +57,7 @@ public class CreateJobStepDef {
     @When("Request to get jobs of user 'user0'")
     public void request_to_get_jobs_of_user0() throws Exception {
     	User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo");
-		Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+		Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
     	List<Job> jobDataAsList = new ArrayList<Job>();
     	jobDataAsList.add(trabajo);
     	given(jobService.findByUsername(usuarioDos.getUsername())).willReturn(jobDataAsList);
@@ -67,7 +67,7 @@ public class CreateJobStepDef {
     
     @When("A user request to create a new job with invalid date '2010-31-01'")
     public void request_create_new_job_invalid_date() throws Exception {
-        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-31-01", "2010-01-01");
+        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-31-01", "2010-01-01", "www.link.com");
         this.jsonObject = this.mapper.writeValueAsString(bd);
     }
     

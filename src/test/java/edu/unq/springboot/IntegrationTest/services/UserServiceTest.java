@@ -65,7 +65,7 @@ public class UserServiceTest {
     @Test
     public void agregoUnTrabajoAUnUsuario() {
         User usuario = userService.findByUsername("nick");
-        Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
 
         usuario = userService.addJob(trabajo, usuario);
         Assert.assertEquals(1, usuario.getJobs().size());
@@ -76,6 +76,7 @@ public class UserServiceTest {
         Assert.assertEquals("Descripcion", trabajo.getDescripcion());
         Assert.assertEquals("2010-10-20", trabajo.getFechaInicioTrabajo().toString());
         Assert.assertEquals("2015-08-10", trabajo.getFechaFinTrabajo().toString());
+        Assert.assertEquals("www.link.com", trabajo.getEnlace());
     }
 
     @AfterEach

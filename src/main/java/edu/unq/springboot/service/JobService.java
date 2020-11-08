@@ -28,6 +28,7 @@ public class JobService {
 				j.setTitulo(editedJob.getTitulo());
 				j.setFechaInicioTrabajo(editedJob.getFechaInicioTrabajo());
 				j.setFechaFinTrabajo(editedJob.getFechaFinTrabajo());
+				j.setEnlace(editedJob.getEnlace());
 				this.jobRepository.save(j);
 			}
 		}

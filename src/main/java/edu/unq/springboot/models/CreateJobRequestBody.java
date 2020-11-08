@@ -6,14 +6,16 @@ public class CreateJobRequestBody {
 	private String descripcion;
 	private String fechaInicioTrabajo;
 	private String fechaFinTrabajo;
+	private String enlace;
 	
 	public CreateJobRequestBody(String username, String titulo, String descripcion, String fechaInicioTrabajo,
-			String fechaFinTrabajo) {
+			String fechaFinTrabajo, String enlace) {
 		this.username = username;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.fechaInicioTrabajo = fechaInicioTrabajo;
 		this.fechaFinTrabajo = fechaFinTrabajo;
+		this.enlace = enlace;
 	}
 
 	public String getUsername() {
@@ -35,4 +37,9 @@ public class CreateJobRequestBody {
 	public String getFechaFinTrabajo() {
 		return fechaFinTrabajo;
 	}
+
+	public String getEnlace() {
+		return enlace;
+	}
+
 }

@@ -20,15 +20,17 @@ public class Job {
     private String descripcion;
     private LocalDate fechaInicioTrabajo;
     private LocalDate fechaFinTrabajo;
+    private String enlace;
 
     public Job() {}
 
-    public Job(User usuario, String titulo, String descripcion, LocalDate fechaInicioTrabajo, LocalDate fechaFinTrabajo) {
+    public Job(User usuario, String titulo, String descripcion, LocalDate fechaInicioTrabajo, LocalDate fechaFinTrabajo, String enlace) {
         this.owner = usuario;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaInicioTrabajo = fechaInicioTrabajo;
         this.fechaFinTrabajo = fechaFinTrabajo;
+        this.enlace = enlace;
     }
 
     public Long getId() {
@@ -70,4 +72,13 @@ public class Job {
     public void setFechaFinTrabajo(LocalDate fechaFinTrabajo) {
         this.fechaFinTrabajo = fechaFinTrabajo;
     }
+
+    public String getEnlace() {
+        return enlace;
+    }
+
+    public void setEnlace(String enlace) {
+        this.enlace = enlace;
+    }
+
 }

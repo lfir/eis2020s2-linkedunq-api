@@ -31,7 +31,7 @@ public class JobServiceTest {
     public void beforeEach() {
         User usuario = new User("Ricardo", "password", "firstname", "lastname", "ricardo@gmail.com");
         usuario = userService.create(usuario);
-        Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "https://www.mercadolibre.com.ar");
         userService.addJob(trabajo, usuario);
     }
 
@@ -44,6 +44,7 @@ public class JobServiceTest {
         trabajo.setDescripcion("Nueva descripcion");
         trabajo.setFechaInicioTrabajo(LocalDate.parse("2012-12-22"));
         trabajo.setFechaFinTrabajo(LocalDate.parse("2012-12-22"));
+        trabajo.setEnlace("https://santander.com.ar/");
         jobService.update(trabajo);
 
         usuario = userService.findByUsername("Ricardo");
@@ -53,6 +54,7 @@ public class JobServiceTest {
         Assert.assertEquals("Nueva descripcion", trabajo.getDescripcion());
         Assert.assertEquals("2012-12-22", trabajo.getFechaInicioTrabajo().toString());
         Assert.assertEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
+        Assert.assertEquals("https://santander.com.ar/", trabajo.getEnlace());
     }
     
     @Test
@@ -64,6 +66,7 @@ public class JobServiceTest {
         trabajo.setDescripcion("Nueva descripcion");
         trabajo.setFechaInicioTrabajo(LocalDate.parse("2012-12-22"));
         trabajo.setFechaFinTrabajo(LocalDate.parse("2012-12-22"));
+        trabajo.setEnlace("https://santander.com.ar/");
         jobService.update(usuario.getUsername(), trabajo.getId(), trabajo);
 
         usuario = userService.findByUsername("Ricardo");
@@ -73,6 +76,7 @@ public class JobServiceTest {
         Assert.assertEquals("Nueva descripcion", trabajo.getDescripcion());
         Assert.assertEquals("2012-12-22", trabajo.getFechaInicioTrabajo().toString());
         Assert.assertEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
+        Assert.assertEquals("https://santander.com.ar/", trabajo.getEnlace());
     }
    
     @Test
@@ -84,6 +88,7 @@ public class JobServiceTest {
         trabajo.setDescripcion("Nueva descripcion");
         trabajo.setFechaInicioTrabajo(LocalDate.parse("2012-12-22"));
         trabajo.setFechaFinTrabajo(LocalDate.parse("2012-12-22"));
+        trabajo.setEnlace("https://santander.com.ar/");
         jobService.update(usuario.getUsername(), trabajo.getId() + 1, trabajo);
 
         usuario = userService.findByUsername("Ricardo");
@@ -92,26 +97,27 @@ public class JobServiceTest {
         Assert.assertNotEquals("Nueva descripcion", trabajo.getDescripcion());
         Assert.assertNotEquals("2012-12-22", trabajo.getFechaInicioTrabajo().toString());
         Assert.assertNotEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
+        Assert.assertNotEquals("https://santander.com.ar/", trabajo.getEnlace());
     }
 
     @Test
     public void obtengoTodosLosTrabajosDeUnUsuarioPorSuUsername() {
         User usuario1 = new User("Hernan", "password", "firstname", "lastname", "hernan@gmail.com");
         usuario1 = userService.create(usuario1);
-        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
         userService.addJob(trabajo1, usuario1);
 
         User usuario2 = new User("Pedro", "password", "firstname", "lastname", "pedro@gmail.com");
         usuario2 = userService.create(usuario2);
-        Job trabajo2 = new Job(usuario2, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
-        Job trabajo3 = new Job(usuario2, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo2 = new Job(usuario2, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
+        Job trabajo3 = new Job(usuario2, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
         usuario2 = userService.addJob(trabajo2, usuario2);
         userService.addJob(trabajo3, usuario2);
 
         User usuario3 = userService.findByUsername("Ricardo");
-        Job trabajo4 = new Job(usuario3, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
-        Job trabajo5 = new Job(usuario3, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
-        Job trabajo6 = new Job(usuario3, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"));
+        Job trabajo4 = new Job(usuario3, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
+        Job trabajo5 = new Job(usuario3, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
+        Job trabajo6 = new Job(usuario3, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
         usuario3 = userService.addJob(trabajo4, usuario3);
         usuario3 = userService.addJob(trabajo5, usuario3);
         userService.addJob(trabajo6, usuario3);
