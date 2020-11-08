@@ -26,7 +26,7 @@ public class JobController {
 		User usuario = userService.findByUsername(bd.getUsername());
 		Job job = new Job(
 			usuario, bd.getTitulo(), bd.getDescripcion(), 
-			LocalDate.parse(bd.getFechaInicioTrabajo()), LocalDate.parse(bd.getFechaFinTrabajo())
+			LocalDate.parse(bd.getFechaInicioTrabajo()), LocalDate.parse(bd.getFechaFinTrabajo()), bd.getEnlace()
 		);
 
 		userService.addJob(job, usuario);
