@@ -25,6 +25,7 @@ public class EditJobStepDef {
 	private Job editedJob;
 	private User user = new User("Ricardo", "password", "firstname", "lastname", "ricardo@gmail.com");
 	private JobService jobService;
+	private JobRepository mock_jobRepository = mock(JobRepository.class);
 	
 	@Given("Job with title {string}")
 	public void setJobTitle(String title) {
@@ -34,17 +35,15 @@ public class EditJobStepDef {
 	@When("I set {string} as the new title of the job")
 	public void updateJobTitle(String title) {
 		this.editedJob = new Job(user, title, "Desc", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "http://ml.ca");
+		given(this.mock_jobRepository.findJobById((long) 1)).willReturn(this.job);
+		this.jobService = new JobService(this.mock_jobRepository);
+
+		this.jobService.update(this.user.getUsername(), (long) 1, this.editedJob);
 	}
 	
 	@Then("The job has value {string} as title")
 	public void jobHasTitle(String title) {
-		JobRepository mock_jobRepository = mock(JobRepository.class);
-		given(mock_jobRepository.findJobById((long) 1)).willReturn(this.job);
-		this.jobService = new JobService(mock_jobRepository);
-
-		this.jobService.update(this.user.getUsername(), (long) 1, this.editedJob);
-
-		verify(mock_jobRepository, times(1))
+		verify(this.mock_jobRepository, times(1))
 			.save(argThat(j -> j.getTitulo().equals(this.editedJob.getTitulo())));
 	}
 }
