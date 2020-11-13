@@ -39,7 +39,8 @@ public class JobControllerTest {
 	@MockBean
     private JobService jobService;
 	private User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo");
-	private Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "www.link.com");
+	private Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"),
+			LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
 
 	@Test
 	void whenValidInput_thenEditJobReturns200() throws Exception {
@@ -52,7 +53,8 @@ public class JobControllerTest {
 
 	@Test
 	void whenValidInput_thenCreateJobReturns200() throws Exception {
-        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01", "www.link.com");
+        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01",
+        		"2010-01-01", "www.link.com", "http://img.us");
         String json = mapper.writeValueAsString(bd);
         mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
@@ -75,7 +77,8 @@ public class JobControllerTest {
 	@Test
 	void whenExistingJob_thenDeleteJobReturns200() throws Exception {
 		User usuario = new User("Artyom", "pass", "fname", "lname", "correo");
-		Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"), LocalDate.parse("2015-08-10"), "https://link.com.ar");
+		Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"),
+				LocalDate.parse("2015-08-10"), "https://link.com.ar", "http://img.us");
 		given(jobService.findJobById((long) 1)).willReturn(trabajo);
 		mvc.perform(delete("/job/1")).andExpect(status().isOk());
 

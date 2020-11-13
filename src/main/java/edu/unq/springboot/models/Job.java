@@ -21,16 +21,28 @@ public class Job {
     private LocalDate fechaInicioTrabajo;
     private LocalDate fechaFinTrabajo;
     private String enlace;
+    private String urlImagen;
 
     public Job() {}
 
-    public Job(User usuario, String titulo, String descripcion, LocalDate fechaInicioTrabajo, LocalDate fechaFinTrabajo, String enlace) {
+    public Job(User usuario, String titulo, String descripcion,
+    		LocalDate fechaInicioTrabajo, LocalDate fechaFinTrabajo, String enlace,
+    		String urlImagen) {
         this.owner = usuario;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaInicioTrabajo = fechaInicioTrabajo;
         this.fechaFinTrabajo = fechaFinTrabajo;
         this.enlace = enlace;
+        this.urlImagen = urlImagen;
+    }
+    
+    public String getUrlImagen() {
+    	return this.urlImagen;
+    }
+    
+    public void setUrlImagen(String urlImagen) {
+    	this.urlImagen = urlImagen;
     }
 
     public Long getId() {
@@ -80,5 +92,4 @@ public class Job {
     public void setEnlace(String enlace) {
         this.enlace = enlace;
     }
-
 }
