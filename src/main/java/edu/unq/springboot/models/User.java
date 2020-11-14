@@ -26,6 +26,9 @@ public class User {
     @Column(length = 50)
 
     private String link=null;
+    @Column(length = 50)
+    private String title;
+
 
     public User() {
 
@@ -37,6 +40,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.jobs = new ArrayList<Job>();
+        this.title = firstName + ' ' + lastName;
 
     }
 
@@ -98,4 +102,8 @@ public class User {
     public String getLink() {
         return this.link;
     }
+
+    public void modifyTitle (String title) {this.title = title;}
+
+    public String getTitle(){return this.title;}
 }
