@@ -41,7 +41,8 @@ public class DeleteJobStepDef {
 
     @Given("A user's job")
     public void aUserJob() throws Exception {
-        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01", "2010-01-01", "https://www.mercadolibre.com.ar/");
+        CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01",
+        		"2010-01-01", "https://www.mercadolibre.com.ar/", "http://img.us");
         String json = this.mapper.writeValueAsString(bd);
         action = mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON));
 
