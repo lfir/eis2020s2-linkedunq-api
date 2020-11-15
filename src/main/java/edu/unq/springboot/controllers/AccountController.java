@@ -68,9 +68,9 @@ public class AccountController {
     public ResponseEntity modifyTitle(@RequestBody User user) {
         if (userService.findByUsername(user.getUsername()) != null) {
             User userbd = userService.findByUsername(user.getUsername());
-            user.modifyTitle(user.getTitle());
+            userbd.modifyTitle(user.getTitle());
             userService.updateUser(userbd);
-            return ResponseEntity.ok(user.getTitle());
+            return ResponseEntity.ok(userbd.getTitle());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username does not exist");
         }
