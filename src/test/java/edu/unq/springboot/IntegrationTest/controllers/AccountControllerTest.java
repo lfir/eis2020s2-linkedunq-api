@@ -171,7 +171,7 @@ public class AccountControllerTest {
 
         action = mvc.perform(get("/title/" + user.getUsername()));
 
-        ResultMatcher result = MockMvcResultMatchers.content().string("Nestor Ortigoza");
+        ResultMatcher result = MockMvcResultMatchers.content().string("Mi Portfolio");
         action.andExpect(result);
     }
 

@@ -71,7 +71,7 @@ public class ModifyTitleStepDef {
 
     @Then("The title is obtained")
     public void TheTitleIsObtained () throws Exception {
-        ResultMatcher result = MockMvcResultMatchers.content().string("Jose Rodrigues");
+        ResultMatcher result = MockMvcResultMatchers.content().string("Mi Portfolio");
         action.andExpect(result);
     }
 }

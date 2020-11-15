@@ -27,7 +27,7 @@ public class User {
 
     private String link=null;
     @Column(length = 50)
-    private String title;
+    private String title="Mi Portfolio";
 
 
     public User() {
@@ -40,7 +40,6 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.jobs = new ArrayList<Job>();
-        this.title = firstName + " " + lastName;
 
     }
 
