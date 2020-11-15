@@ -169,9 +169,7 @@ public class AccountControllerTest {
                 .content(requestUser)
                 .contentType(MediaType.APPLICATION_JSON));
 
-        action = mvc.perform(get("/title")
-                .content(user.getUsername())
-                .contentType(MediaType.APPLICATION_JSON));
+        action = mvc.perform(get("/title/" + user.getUsername()));
 
         ResultMatcher result = MockMvcResultMatchers.content().string("Nestor Ortigoza");
         action.andExpect(result);
@@ -181,9 +179,8 @@ public class AccountControllerTest {
     public void RequestParaObtenerElTituloDeUnUsuarioQueNoExiste () throws Exception {
 
 
-        action = mvc.perform(get("/title")
-                .content("Jose123")
-                .contentType(MediaType.APPLICATION_JSON));
+        action = mvc.perform(get("/title/jose123"));
+
 
         ResultMatcher result = MockMvcResultMatchers.content().string("Username does not exist");
         action.andExpect(result);

@@ -77,9 +77,9 @@ public class AccountController {
     }
 
     @CrossOrigin
-    @RequestMapping(method =  {RequestMethod.GET}, value = {"/title"})
+    @RequestMapping(method =  {RequestMethod.GET}, value = {"/title/{username}"})
     @ResponseBody
-    public ResponseEntity getTitle(@RequestBody String username) {
+    public ResponseEntity getTitle(@PathVariable(value = "username", required = true) String username) {
         if (userService.findByUsername(username) != null) {
             User user = userService.findByUsername(username);
             return ResponseEntity.ok(user.getTitle());

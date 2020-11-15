@@ -66,7 +66,7 @@ public class ModifyTitleStepDef {
     @When("you want to get the title")
     public void getTheTitle () throws Exception {
         given(userService.findByUsername(user.getUsername())).willReturn(user);
-        action = mvc.perform(get("/title").content(username).contentType(MediaType.APPLICATION_JSON));
+        action = mvc.perform(get("/title/" + username));
     }
 
     @Then("The title is obtained")
