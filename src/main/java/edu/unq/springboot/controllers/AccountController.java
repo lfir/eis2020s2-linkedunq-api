@@ -2,6 +2,7 @@ package edu.unq.springboot.controllers;
 
 import edu.unq.springboot.models.User;
 import edu.unq.springboot.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,9 +61,20 @@ public class AccountController {
         }
     }
 
+    @CrossOrigin
 
-
-
+    @RequestMapping(method = {RequestMethod.PUT}, value = {"/title"})
+    @ResponseBody
+    public ResponseEntity modifyTitle(@RequestBody User user) {
+        if (userService.findByUsername(user.getUsername()) != null) {
+            User userbd = userService.findByUsername(user.getUsername());
+            user.modifyTitle(user.getTitle());
+            userService.updateUser(userbd);
+            return ResponseEntity.ok(user.getTitle());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username does not exist");
+        }
+    }
 }
 
 
