@@ -40,7 +40,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.jobs = new ArrayList<Job>();
-        this.title = firstName + "" + lastName;
+        this.title = firstName + " " + lastName;
 
     }
 
