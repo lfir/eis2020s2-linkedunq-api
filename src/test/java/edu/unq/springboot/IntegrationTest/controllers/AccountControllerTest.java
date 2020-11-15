@@ -21,8 +21,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -153,6 +152,37 @@ public class AccountControllerTest {
 
         action = mvc.perform(put("/title")
                 .content(requestUser)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        ResultMatcher result = MockMvcResultMatchers.content().string("Username does not exist");
+        action.andExpect(result);
+    }
+
+    @Test
+    public void RequestParaObtenerElTitulo () throws Exception {
+        User user = new User("nestor", "1234", "Nestor", "Ortigoza", "nestor@gmail.com");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String requestUser = mapper.writeValueAsString(user);
+
+        mvc.perform(post("/register")
+                .content(requestUser)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        action = mvc.perform(get("/title")
+                .content(user.getUsername())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        ResultMatcher result = MockMvcResultMatchers.content().string("Nestor Ortigoza");
+        action.andExpect(result);
+    }
+
+    @Test
+    public void RequestParaObtenerElTituloDeUnUsuarioQueNoExiste () throws Exception {
+
+
+        action = mvc.perform(get("/title")
+                .content("Jose123")
                 .contentType(MediaType.APPLICATION_JSON));
 
         ResultMatcher result = MockMvcResultMatchers.content().string("Username does not exist");

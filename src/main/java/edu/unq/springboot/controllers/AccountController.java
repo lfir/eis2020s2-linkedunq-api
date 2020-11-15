@@ -75,6 +75,18 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username does not exist");
         }
     }
+
+    @CrossOrigin
+    @RequestMapping(method =  {RequestMethod.GET}, value = {"/title"})
+    @ResponseBody
+    public ResponseEntity getTitle(@RequestBody String username) {
+        if (userService.findByUsername(username) != null) {
+            User user = userService.findByUsername(username);
+            return ResponseEntity.ok(user.getTitle());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username does not exist");
+        }
+    }
 }
 
 
