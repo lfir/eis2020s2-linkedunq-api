@@ -17,4 +17,11 @@ public class UserTest {
         Assert.assertEquals(usuario.getLink(),null);
     }
 
+    @Test
+    void ModifyUserTitle() {
+        User usuario = new User("nelson", "1234", "Nelson", "Gonzalez", "nelgonzalez88@gmail.com");
+        usuario.modifyTitle("Nelson Gonzales Desarrollador Web");
+        Assert.assertEquals(usuario.getTitle(),"Nelson Gonzales Desarrollador Web");
+    }
+
 }

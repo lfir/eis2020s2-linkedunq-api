@@ -61,6 +61,8 @@ public class AccountController {
         }
     }
 
+    @CrossOrigin
+
     @RequestMapping(method = {RequestMethod.PUT}, value = {"/title"})
     @ResponseBody
     public ResponseEntity modifyTitle(@RequestBody User user) {

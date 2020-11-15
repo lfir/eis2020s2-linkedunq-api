@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
@@ -119,8 +121,43 @@ public class AccountControllerTest {
         action.andExpect(result);
     }
 
+    @Test
+    public void RequestParaModificarElTitulo () throws  Exception {
+        User user = new User("nestor", "1234", "Nestor", "Ortigoza", "nestor@gmail.com");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String requestUser = mapper.writeValueAsString(user);
+
+        mvc.perform(post("/register")
+                .content(requestUser)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        user.modifyTitle("Nestor programador");
+        requestUser = mapper.writeValueAsString(user);
+
+        action = mvc.perform(put("/title")
+                .content(requestUser)
+                .contentType(MediaType.APPLICATION_JSON));
 
 
+        ResultMatcher result = MockMvcResultMatchers.content().string("Nestor programador");
+        action.andExpect(result);
+    }
+
+    @Test
+    public void RequestParaModificarElTituloDeUnUsuarioQueNoExiste () throws Exception {
+        User user = new User("nestor", "1234", "Nestor", "Ortigoza", "nestor@gmail.com");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String requestUser = mapper.writeValueAsString(user);
+
+        action = mvc.perform(put("/title")
+                .content(requestUser)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        ResultMatcher result = MockMvcResultMatchers.content().string("Username does not exist");
+        action.andExpect(result);
+    }
 
     @AfterEach
     public void afterEach() {

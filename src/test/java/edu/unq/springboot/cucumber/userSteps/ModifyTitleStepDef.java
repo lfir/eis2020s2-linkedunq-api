@@ -41,13 +41,12 @@ public class ModifyTitleStepDef {
     @Given("A user with the default title")
     public void userWithDefaultTitle () throws Exception {
         user = new User("jose","1234","Jose","Rodrigues","joserodrigues@gmail.com");
-        user.modifyTitle("Jose desarrollador");
-        jsonObject = mapper.writeValueAsString(user);
-
     }
 
     @When("User wants to change title")
     public void modifyDefaultTitle () throws Exception {
+        user.modifyTitle("Jose desarrollador");
+        jsonObject = mapper.writeValueAsString(user);
         given(userService.findByUsername(user.getUsername())).willReturn(user);
         action = mvc.perform(put("/title").content(jsonObject).contentType(MediaType.APPLICATION_JSON));
     }
