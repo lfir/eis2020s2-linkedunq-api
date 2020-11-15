@@ -23,8 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @WebMvcTest
 @RunWith(SpringRunner.class)
@@ -38,6 +37,7 @@ public class ModifyTitleStepDef {
     @Autowired
     private ObjectMapper mapper;
     private User user;
+    private String username;
     @Given("A user with the default title")
     public void userWithDefaultTitle () throws Exception {
         user = new User("jose","1234","Jose","Rodrigues","joserodrigues@gmail.com");
@@ -54,6 +54,24 @@ public class ModifyTitleStepDef {
     @Then("The title is modified")
     public void theTitleIsModified () throws  Exception {
         ResultMatcher result = MockMvcResultMatchers.content().string("Jose desarrollador");
+        action.andExpect(result);
+    }
+
+    @Given("A username")
+    public void userName () {
+        user = new User("jose","1234","Jose","Rodrigues","joserodrigues@gmail.com");
+        username = "jose";
+    }
+
+    @When("you want to get the title")
+    public void getTheTitle () throws Exception {
+        given(userService.findByUsername(user.getUsername())).willReturn(user);
+        action = mvc.perform(get("/title/" + username));
+    }
+
+    @Then("The title is obtained")
+    public void TheTitleIsObtained () throws Exception {
+        ResultMatcher result = MockMvcResultMatchers.content().string("Mi Portfolio");
         action.andExpect(result);
     }
 }

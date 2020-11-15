@@ -68,8 +68,20 @@ public class AccountController {
     public ResponseEntity modifyTitle(@RequestBody User user) {
         if (userService.findByUsername(user.getUsername()) != null) {
             User userbd = userService.findByUsername(user.getUsername());
-            user.modifyTitle(user.getTitle());
+            userbd.modifyTitle(user.getTitle());
             userService.updateUser(userbd);
+            return ResponseEntity.ok(userbd.getTitle());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username does not exist");
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(method =  {RequestMethod.GET}, value = {"/title/{username}"})
+    @ResponseBody
+    public ResponseEntity getTitle(@PathVariable(value = "username", required = true) String username) {
+        if (userService.findByUsername(username) != null) {
+            User user = userService.findByUsername(username);
             return ResponseEntity.ok(user.getTitle());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username does not exist");
