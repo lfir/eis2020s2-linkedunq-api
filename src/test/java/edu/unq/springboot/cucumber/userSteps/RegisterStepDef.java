@@ -63,7 +63,7 @@ public class RegisterStepDef {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         String jsonUser = mapper.writeValueAsString(user);
-        given(userService.validateUser(user.getUsername(), user.getPassword())).willReturn(true);
+        given(userService.validateUser(user.getUsername(), user.getPassword(), user.isRecruiter())).willReturn(true);
         // Inicio sesión
         action = mvc.perform(post("/login")
                 .content(jsonUser).contentType(jsonUser)

@@ -37,7 +37,7 @@ public class AccountController {
     @RequestMapping(method = {RequestMethod.POST}, value = {"/login"})
     @ResponseBody
     public ResponseEntity logInUser(@RequestBody User user) {
-        if (userService.validateUser(user.getUsername(), user.getPassword())) {
+        if (userService.validateUser(user.getUsername(), user.getPassword(), user.isRecruiter())) {
             return ResponseEntity.ok("OK");
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error");

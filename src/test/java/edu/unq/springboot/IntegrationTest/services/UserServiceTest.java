@@ -30,8 +30,9 @@ public class UserServiceTest {
         usuario.setLastName("lname");
         usuario.setPassword("pass");
         usuario.setUsername("nick");
+        usuario.setRecruiter(false);
         userService.create(usuario);
-        User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo");
+        User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo", false);
         userService.create(usuarioDos);
     }
 
@@ -44,22 +45,28 @@ public class UserServiceTest {
         Assert.assertEquals("fname", usuario.getFirstName());
         Assert.assertEquals("lname", usuario.getLastName());
         Assert.assertEquals("email", usuario.getEmail());
+        Assert.assertFalse(usuario.isRecruiter());
         Assert.assertEquals(0 , usuario.getJobs().size());
     }
 
     @Test
     public void validoUnLogInExitoso() {
-        Assert.assertTrue(userService.validateUser("nick", "pass"));
+        Assert.assertTrue(userService.validateUser("nick", "pass", false));
     }
 
     @Test
     public void validoUnLogInConContraseniaIncorrecta() {
-        Assert.assertFalse(userService.validateUser("nick", ""));
+        Assert.assertFalse(userService.validateUser("nick", "", false));
     }
 
     @Test
     public void validoUnLogInConUnUsuarioQueNoExiste() {
-        Assert.assertFalse(userService.validateUser("", "pass"));
+        Assert.assertFalse(userService.validateUser("", "pass", false));
+    }
+
+    @Test
+    public void validoUnLogInConUsuarioYContraseniaCorrectaPeroRecruiter() {
+        Assert.assertFalse(userService.validateUser("", "pass", true));
     }
 
     @Test
