@@ -37,7 +37,7 @@ public class AccountController {
     @RequestMapping(method = {RequestMethod.POST}, value = {"/login"})
     @ResponseBody
     public ResponseEntity logInUser(@RequestBody User user) {
-        if (userService.validateUser(user.getUsername(), user.getPassword())) {
+        if (userService.validateUser(user.getUsername(), user.getPassword(), user.isRecruiter())) {
             return ResponseEntity.ok("OK");
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error");
@@ -49,16 +49,13 @@ public class AccountController {
     @RequestMapping(method = {RequestMethod.PUT}, value = {"/link"})
     @ResponseBody
     public ResponseEntity generateLink(@RequestBody User usuario) {
-        if (userService.findByUsername(usuario.getUsername()).getLink() == null) {
-            User user=userService.findByUsername(usuario.getUsername());
+        User user = userService.findByUsername(usuario.getUsername());
+        if (user.getLink() == null) {
             user.generateLink();
             userService.updateUser(user);
             System.out.println(usuario.getLink());
-            return ResponseEntity.ok(user.getLink());
-        } else {
-            return ResponseEntity.ok(userService.findByUsername(usuario.getUsername()).getLink());
-
         }
+        return ResponseEntity.ok(user.getLink());
     }
 
     @CrossOrigin

@@ -1,7 +1,5 @@
 package edu.unq.springboot.models;
 
-import org.springframework.data.jpa.repository.Modifying;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +26,7 @@ public class User {
     private String link=null;
     @Column(length = 50)
     private String title="Mi Portfolio";
-
+    private Boolean isRecruiter;
 
     public User() {
 
@@ -41,6 +39,11 @@ public class User {
         this.email = email;
         this.jobs = new ArrayList<Job>();
 
+    }
+
+    public User(String username, String password, String firstName, String lastName, String email, Boolean isRecruiter) {
+        this(username, password, firstName, lastName, email);
+        this.isRecruiter = isRecruiter;
     }
 
 
@@ -105,4 +108,13 @@ public class User {
     public void modifyTitle (String title) {this.title = title;}
 
     public String getTitle(){return this.title;}
+
+    public Boolean isRecruiter() {
+        return isRecruiter;
+    }
+
+    public void setRecruiter(Boolean recruiter) {
+        isRecruiter = recruiter;
+    }
+
 }

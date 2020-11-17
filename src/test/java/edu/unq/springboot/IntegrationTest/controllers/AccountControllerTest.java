@@ -43,8 +43,8 @@ public class AccountControllerTest {
 
     @BeforeEach
     public void beforeEach() throws Exception {
-        user = new User("Jose123","123456","Jose","Rodrigues","jose@gmial.com");
-        user2 = new User("Jose123", "123456", "Jose", "Gonzales", "gonzales@gmail.com");
+        user = new User("Jose123","123456","Jose","Rodrigues","jose@gmial.com", false);
+        user2 = new User("Jose123", "123456", "Jose", "Gonzales", "gonzales@gmail.com", false);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         jsonUser = mapper.writeValueAsString(user);
