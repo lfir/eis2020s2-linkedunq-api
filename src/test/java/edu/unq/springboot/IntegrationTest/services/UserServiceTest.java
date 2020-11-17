@@ -55,18 +55,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validoUnLogInConContraseniaIncorrecta() {
-        Assert.assertFalse(userService.validateUser("nick", "", false));
-    }
-
-    @Test
-    public void validoUnLogInConUnUsuarioQueNoExiste() {
-        Assert.assertFalse(userService.validateUser("", "pass", false));
-    }
-
-    @Test
-    public void validoUnLogInConUsuarioYContraseniaCorrectaPeroRecruiter() {
+    public void validoVariosIntentosDeLogInFallidos() {
+        Assert.assertFalse(userService.validateUser("nick", "", true));
         Assert.assertFalse(userService.validateUser("", "pass", true));
+        Assert.assertFalse(userService.validateUser("", "", false));
+        Assert.assertFalse(userService.validateUser("nick", "pass", true));
+        Assert.assertFalse(userService.validateUser("nick", "", false));
+        Assert.assertFalse(userService.validateUser("", "pass", false));
     }
 
     @Test
