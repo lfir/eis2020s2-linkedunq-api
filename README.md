@@ -1,4 +1,4 @@
-  ## Trabajo practico elementos de la ingenieria de software
+  ## Trabajo practico elementos de la ingeniería de software
 
 * Product backlog, Sprint backlog: https://trello.com/b/zy7tYkQp/linkedunq
 * Repositorio back-end: https://github.com/Asta1986/eis2020s2-linkedunq-api
