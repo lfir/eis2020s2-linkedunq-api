@@ -31,7 +31,13 @@ public class UserService {
 
     public Boolean validateUser(String username, String password, Boolean isRecruiter) {
         User usuario = userRepository.findByUsername(username);
-        return usuario != null && password.equals(usuario.getPassword()) && isRecruiter.equals(usuario.isRecruiter());
+        boolean response=false;
+        if(isRecruiter==null)
+            response=usuario != null && password.equals(usuario.getPassword()) ;
+        else
+            response=usuario != null && password.equals(usuario.getPassword())&& isRecruiter.equals(usuario.isRecruiter());
+
+        return response;
     }
 
     public void deleteAll() {
