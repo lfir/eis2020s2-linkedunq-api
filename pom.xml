@@ -128,7 +128,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>com/eldisol/jacoboot/JacobootApplication.class</exclude>
+                        <exclude>edu/unq/springboot/LinkedUNQApplication.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>
