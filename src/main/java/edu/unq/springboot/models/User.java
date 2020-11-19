@@ -1,6 +1,9 @@
 package edu.unq.springboot.models;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class User {
     private String lastName;
     @Column(unique = true)
     private String email;
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER) @JsonIgnore
     private List<Job> jobs;
     @Column(length = 50)
 
