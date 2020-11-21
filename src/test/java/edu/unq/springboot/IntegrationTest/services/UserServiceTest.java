@@ -32,7 +32,7 @@ public class UserServiceTest {
         usuario.setUsername("nick");
         usuario.setRecruiter(false);
         userService.create(usuario);
-        User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo", false);
+        User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo", true);
         userService.create(usuarioDos);
     }
 
@@ -51,17 +51,16 @@ public class UserServiceTest {
 
     @Test
     public void validoUnLogInExitoso() {
-        Assert.assertTrue(userService.validateUser("nick", "pass", false));
+        Assert.assertTrue(userService.validateUser("DosSantos", "pass"));
     }
 
     @Test
     public void validoVariosIntentosDeLogInFallidos() {
-        Assert.assertFalse(userService.validateUser("nick", "", true));
-        Assert.assertFalse(userService.validateUser("", "pass", true));
-        Assert.assertFalse(userService.validateUser("", "", false));
-        Assert.assertFalse(userService.validateUser("nick", "pass", true));
-        Assert.assertFalse(userService.validateUser("nick", "", false));
-        Assert.assertFalse(userService.validateUser("", "pass", false));
+        Assert.assertNull(userService.validateUser("nick", ""));
+        Assert.assertNull(userService.validateUser("", "pass"));
+        Assert.assertNull(userService.validateUser("", ""));
+        Assert.assertNull(userService.validateUser("nick", ""));
+        Assert.assertNull(userService.validateUser("", "pass"));
     }
 
     @Test
