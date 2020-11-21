@@ -63,13 +63,13 @@ public class RegisterStepDef {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         String jsonUser = mapper.writeValueAsString(user);
-        given(userService.validateUser(user.getUsername(), user.getPassword(), user.isRecruiter())).willReturn(true);
+        given(userService.validateUser(user.getUsername(), user.getPassword())).willReturn(true);
         // Inicio sesión
         action = mvc.perform(post("/login")
                 .content(jsonUser).contentType(jsonUser)
                 .contentType(MediaType.APPLICATION_JSON));
 
-        ResultMatcher result = MockMvcResultMatchers.content().string("OK");
+        ResultMatcher result = MockMvcResultMatchers.content().string("true");
         action.andExpect(result);
 
     }

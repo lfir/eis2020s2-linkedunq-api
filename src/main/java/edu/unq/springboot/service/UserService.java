@@ -29,15 +29,13 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public Boolean validateUser(String username, String password, Boolean isRecruiter) {
+    public Boolean validateUser(String username, String password) {
         User usuario = userRepository.findByUsername(username);
-        boolean response=false;
-        if(isRecruiter==null)
-            response=usuario != null && password.equals(usuario.getPassword()) ;
-        else
-            response=usuario != null && password.equals(usuario.getPassword())&& isRecruiter.equals(usuario.isRecruiter());
-
-        return response;
+        if (usuario != null && usuario.getPassword().equals(password)) {
+            return usuario.isRecruiter();
+        } else {
+            return null;
+        }
     }
 
     public void deleteAll() {
