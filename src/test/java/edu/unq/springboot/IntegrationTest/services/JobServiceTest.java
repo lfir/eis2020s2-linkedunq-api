@@ -30,7 +30,7 @@ public class JobServiceTest {
         User usuario = new User("Ricardo", "password", "firstname", "lastname", "ricardo@gmail.com");
         usuario = userService.create(usuario);
         Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "https://www.mercadolibre.com.ar", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "https://www.mercadolibre.com.ar", "http://img.us", 1);
         userService.addJob(trabajo, usuario);
     }
 
@@ -87,25 +87,25 @@ public class JobServiceTest {
         User usuario1 = new User("Hernan", "password", "firstname", "lastname", "hernan@gmail.com");
         usuario1 = userService.create(usuario1);
         Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
         userService.addJob(trabajo1, usuario1);
 
         User usuario2 = new User("Pedro", "password", "firstname", "lastname", "pedro@gmail.com");
         usuario2 = userService.create(usuario2);
         Job trabajo2 = new Job(usuario2, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
         Job trabajo3 = new Job(usuario2, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
         usuario2 = userService.addJob(trabajo2, usuario2);
         userService.addJob(trabajo3, usuario2);
 
         User usuario3 = userService.findByUsername("Ricardo");
         Job trabajo4 = new Job(usuario3, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
         Job trabajo5 = new Job(usuario3, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
         Job trabajo6 = new Job(usuario3, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
         usuario3 = userService.addJob(trabajo4, usuario3);
         usuario3 = userService.addJob(trabajo5, usuario3);
         userService.addJob(trabajo6, usuario3);
@@ -126,7 +126,7 @@ public class JobServiceTest {
         User usuario1 = new User("Laura", "password", "firstname", "lastname", "laura@dominio.com");
         usuario1 = userService.create(usuario1);
         Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "https://link.com.ar", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "https://link.com.ar", "http://img.us", 1);
 
         userService.addJob(trabajo1, usuario1);
         Assert.assertEquals(1, jobService.findByUsername(usuario1.getUsername()).size());
@@ -142,7 +142,7 @@ public class JobServiceTest {
         User usuario1 = new User("Laura", "password", "firstname", "lastname", "laura@dominio.com");
         usuario1 = userService.create(usuario1);
         Job trabajo1 = new Job(usuario1, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "https://link.com.ar", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "https://link.com.ar", "http://img.us", 1);
         userService.addJob(trabajo1, usuario1);
 
         trabajo1 = jobService.findByUsername(usuario1.getUsername()).get(0);

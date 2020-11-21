@@ -27,8 +27,7 @@ public class JobController {
 		Job job = new Job(
 			usuario, bd.getTitulo(), bd.getDescripcion(), 
 			LocalDate.parse(bd.getFechaInicioTrabajo()), LocalDate.parse(bd.getFechaFinTrabajo()),
-			bd.getEnlace(), bd.getUrlImagen()
-		);
+			bd.getEnlace(), bd.getUrlImagen(), bd.getPrioridad());
 
 		userService.addJob(job, usuario);
 

@@ -1,9 +1,10 @@
 package edu.unq.springboot.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import edu.unq.springboot.models.User;
 
 import java.time.LocalDate;
 
@@ -22,12 +23,15 @@ public class Job {
     private LocalDate fechaFinTrabajo;
     private String enlace;
     private String urlImagen;
+    @Min(1)
+    @Max(3)
+    private Integer prioridad;
 
     public Job() {}
 
     public Job(User usuario, String titulo, String descripcion,
-    		LocalDate fechaInicioTrabajo, LocalDate fechaFinTrabajo, String enlace,
-    		String urlImagen) {
+               LocalDate fechaInicioTrabajo, LocalDate fechaFinTrabajo, String enlace,
+               String urlImagen, Integer prioridad) {
         this.owner = usuario;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -35,6 +39,7 @@ public class Job {
         this.fechaFinTrabajo = fechaFinTrabajo;
         this.enlace = enlace;
         this.urlImagen = urlImagen;
+        this.prioridad = prioridad;
     }
     
     public String getUrlImagen() {

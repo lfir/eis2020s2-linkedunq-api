@@ -1,16 +1,12 @@
 package edu.unq.springboot.cucumber.userSteps;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.unq.springboot.models.CreateJobRequestBody;
-import edu.unq.springboot.models.Job;
-import edu.unq.springboot.models.User;
 import edu.unq.springboot.service.JobService;
 import edu.unq.springboot.service.UserService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -42,7 +38,7 @@ public class DeleteJobStepDef {
     @Given("A user's job")
     public void aUserJob() throws Exception {
         CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01",
-        		"2010-01-01", "https://www.mercadolibre.com.ar/", "http://img.us");
+        		"2010-01-01", "https://www.mercadolibre.com.ar/", "http://img.us", 1);
         String json = this.mapper.writeValueAsString(bd);
         action = mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON));
 

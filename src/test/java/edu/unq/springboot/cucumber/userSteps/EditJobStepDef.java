@@ -30,13 +30,13 @@ public class EditJobStepDef {
 	@Given("Job with title {string}")
 	public void setJobTitle(String title) {
 		this.job = new Job(user, title, "Desc", LocalDate.parse("2010-10-20"),
-				LocalDate.parse("2015-08-10"), "http://ml.ca", "http://img.us");
+				LocalDate.parse("2015-08-10"), "http://ml.ca", "http://img.us", 1);
 	}
 	
 	@When("I set {string} as the new title of the job")
 	public void updateJobTitle(String title) {
 		this.editedJob = new Job(user, title, "Desc", LocalDate.parse("2010-10-20"),
-				LocalDate.parse("2015-08-10"), "http://ml.ca", "http://img.us");
+				LocalDate.parse("2015-08-10"), "http://ml.ca", "http://img.us", 1);
 		given(this.mock_jobRepository.findJobById((long) 1)).willReturn(this.job);
 		this.jobService = new JobService(this.mock_jobRepository);
 

@@ -7,11 +7,9 @@ import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 
@@ -68,7 +66,7 @@ public class UserServiceTest {
     public void agregoUnTrabajoAUnUsuario() {
         User usuario = userService.findByUsername("nick");
         Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
 
         usuario = userService.addJob(trabajo, usuario);
         Assert.assertEquals(1, usuario.getJobs().size());
