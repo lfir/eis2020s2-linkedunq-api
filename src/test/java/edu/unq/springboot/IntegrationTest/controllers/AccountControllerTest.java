@@ -43,7 +43,7 @@ public class AccountControllerTest {
 
     @BeforeEach
     public void beforeEach() throws Exception {
-        user = new User("Jose123","123456","Jose","Rodrigues","jose@gmial.com", false);
+        user = new User("Jose123","123456","Jose","Rodrigues","jose@gmial.com", true);
         user2 = new User("Jose123", "123456", "Jose", "Gonzales", "gonzales@gmail.com", false);
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
@@ -90,7 +90,7 @@ public class AccountControllerTest {
                 .content(jsonUser).contentType(jsonUser)
                 .contentType(MediaType.APPLICATION_JSON));
 
-        ResultMatcher result = MockMvcResultMatchers.content().string("OK");
+        ResultMatcher result = MockMvcResultMatchers.content().string("true");
         action.andExpect(result);
     }
 
