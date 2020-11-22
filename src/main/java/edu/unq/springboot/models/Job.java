@@ -97,4 +97,12 @@ public class Job {
     public void setEnlace(String enlace) {
         this.enlace = enlace;
     }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(Integer prioridad) {
+        this.prioridad = prioridad;
+    }
 }
