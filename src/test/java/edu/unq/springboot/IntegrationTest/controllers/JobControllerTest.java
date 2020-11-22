@@ -60,7 +60,7 @@ public class JobControllerTest {
 
 	@Test
 	void whenExistingUser_thenGetUserJobsReturnsAListOfJobsAsJSON() throws Exception {
-    	List<Job> jobDataAsList = new ArrayList<Job>();
+    	List<Job> jobDataAsList = new ArrayList<>();
     	jobDataAsList.add(trabajo);
     	given(jobService.findByUsername(usuarioDos.getUsername())).willReturn(jobDataAsList);
 
@@ -75,7 +75,7 @@ public class JobControllerTest {
 
 	@Test
 	void whenExistingUser_thenGetUserJobsSortedByPriorityReturnsAListOfJobsAsJSON() throws Exception {
-		List<Job> jobDataAsList = new ArrayList<Job>();
+		List<Job> jobDataAsList = new ArrayList<>();
 		jobDataAsList.add(trabajo);
 		given(jobService.findByUsernameOrderedByPriority(usuarioDos.getUsername())).willReturn(jobDataAsList);
 
@@ -90,7 +90,7 @@ public class JobControllerTest {
 
 	@Test
 	void whenExistingUser_thenGetUserJobsSortedByDateReturnsAListOfJobsAsJSON() throws Exception {
-		List<Job> jobDataAsList = new ArrayList<Job>();
+		List<Job> jobDataAsList = new ArrayList<>();
 		jobDataAsList.add(trabajo);
 		given(jobService.findByUsernameOrderedByDate(usuarioDos.getUsername())).willReturn(jobDataAsList);
 
