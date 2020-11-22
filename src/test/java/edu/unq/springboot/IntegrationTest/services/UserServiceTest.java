@@ -1,19 +1,19 @@
 package edu.unq.springboot.IntegrationTest.services;
 
-import edu.unq.springboot.models.Job;
-import edu.unq.springboot.service.UserService;
-import edu.unq.springboot.models.User;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDate;
+import edu.unq.springboot.models.Job;
+import edu.unq.springboot.models.User;
+import edu.unq.springboot.service.UserService;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -79,6 +79,15 @@ public class UserServiceTest {
         Assert.assertEquals("2010-10-20", trabajo.getFechaInicioTrabajo().toString());
         Assert.assertEquals("2015-08-10", trabajo.getFechaFinTrabajo().toString());
         Assert.assertEquals("www.link.com", trabajo.getEnlace());
+    }
+    
+    @Test
+    public void conUnUsuarioNoRecruiterYUnoRecruiterAlPedirLosNoRecruitersSoloSeRecibeElNoRecruiter() throws Exception {
+    	List<User> noRecruiters = this.userService.getNonRecruiters();
+    	
+    	Assert.assertFalse(noRecruiters.get(0).isRecruiter());
+    	Assert.assertEquals("nick", noRecruiters.get(0).getUsername());
+    	Assert.assertEquals(1, noRecruiters.size());
     }
 
     @AfterEach
