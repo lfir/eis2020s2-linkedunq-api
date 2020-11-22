@@ -13,13 +13,11 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -27,7 +25,6 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import edu.unq.springboot.models.User;
 import edu.unq.springboot.service.UserService;
@@ -44,19 +41,15 @@ public class AccountControllerTest {
     private User user;
     private User user2;
     private String jsonUser;
-    private String jsonUser2;
-
     @Autowired
     private MockMvc mvc;
-    ResultActions action;
+    private ResultActions action;
 
     @BeforeEach
     public void beforeEach() throws Exception {
         user = new User("Jose123","123456","Jose","Rodrigues","jose@gmial.com", true);
         user2 = new User("Jose124", "123456", "Jose", "Gonzales", "gonzales@gmail.com", false);
         jsonUser = mapper.writeValueAsString(user);
-        jsonUser2 = mapper.writeValueAsString(user2);
-
     }
 
     @Test
