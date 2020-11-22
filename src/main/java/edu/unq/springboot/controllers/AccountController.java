@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import javax.validation.constraints.Null;
 
 @RestController
@@ -19,10 +21,8 @@ public class AccountController {
     UserService userService;
 
     @CrossOrigin
-
     @RequestMapping(method = {RequestMethod.POST}, value = {"/register"})
     @ResponseBody
-
     public ResponseEntity registerNewUser(@RequestBody User user) {
         if (userService.findByUsername(user.getUsername()) == null) {
             userService.create(user);
@@ -33,7 +33,6 @@ public class AccountController {
     }
 
     @CrossOrigin
-
     @RequestMapping(method = {RequestMethod.POST}, value = {"/login"})
     @ResponseBody
     public ResponseEntity logInUser(@RequestBody User user) {
@@ -46,7 +45,6 @@ public class AccountController {
     }
 
     @CrossOrigin
-
     @RequestMapping(method = {RequestMethod.PUT}, value = {"/link"})
     @ResponseBody
     public ResponseEntity generateLink(@RequestBody User usuario) {
@@ -60,7 +58,6 @@ public class AccountController {
     }
 
     @CrossOrigin
-
     @RequestMapping(method = {RequestMethod.PUT}, value = {"/title"})
     @ResponseBody
     public ResponseEntity modifyTitle(@RequestBody User user) {
@@ -85,7 +82,11 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username does not exist");
         }
     }
+    
+    @CrossOrigin
+	@GetMapping("/candidates")
+	@ResponseBody
+	public List<User> getCandidates() {
+		return userService.getNonRecruiters();
+	}
 }
-
-
-

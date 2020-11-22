@@ -3,6 +3,11 @@ package edu.unq.springboot.service;
 import edu.unq.springboot.models.Job;
 import edu.unq.springboot.models.User;
 import edu.unq.springboot.repository.UserRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +49,10 @@ public class UserService {
 
     public void updateUser(User usuario) {
         userRepository.save(usuario);
+    }
+    
+    public List<User> getNonRecruiters() {
+    	return StreamSupport.stream(this.userRepository.findByIsRecruiterFalse().spliterator(), false)
+    		       .collect(Collectors.toList());
     }
 }
