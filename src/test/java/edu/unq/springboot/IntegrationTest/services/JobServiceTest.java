@@ -45,6 +45,7 @@ public class JobServiceTest {
         trabajo.setFechaFinTrabajo(LocalDate.parse("2012-12-22"));
         trabajo.setEnlace("https://santander.com.ar/");
         trabajo.setUrlImagen("http://123.com");
+        trabajo.setPrioridad(3);
         jobService.update(trabajo);
 
         usuario = userService.findByUsername("Ricardo");
@@ -56,6 +57,7 @@ public class JobServiceTest {
         Assert.assertEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
         Assert.assertEquals("https://santander.com.ar/", trabajo.getEnlace());
         Assert.assertEquals("http://123.com", trabajo.getUrlImagen());
+        Assert.assertEquals(3, trabajo.getPrioridad());
     }
     
     @Test
@@ -69,6 +71,7 @@ public class JobServiceTest {
         trabajo.setFechaFinTrabajo(LocalDate.parse("2012-12-22"));
         trabajo.setEnlace("https://santander.com.ar/");
         trabajo.setUrlImagen("http://123.com");
+        trabajo.setPrioridad(1);
         jobService.update(usuario.getUsername(), trabajo.getId(), trabajo);
 
         usuario = userService.findByUsername("Ricardo");
@@ -80,6 +83,7 @@ public class JobServiceTest {
         Assert.assertEquals("2012-12-22", trabajo.getFechaFinTrabajo().toString());
         Assert.assertEquals("https://santander.com.ar/", trabajo.getEnlace());
         Assert.assertEquals("http://123.com", trabajo.getUrlImagen());
+        Assert.assertEquals(1, trabajo.getPrioridad());
     }
 
     @Test
@@ -151,6 +155,29 @@ public class JobServiceTest {
         jobService.deleteJobById(trabajo1.getId());
         Assert.assertNull(jobService.findJobById(trabajo1.getId()));
 
+    }
+
+    @Transactional
+    @Test
+    public void encuentroUnTrabajoDeUnUsuarioOrdenadoPorPrioridad(){
+        User usuario = userService.create(new User("Arthur", "pass", "fname", "lname", "arthur@domain.com"));
+        Job trabajo1 = new Job(usuario, "Titulo1", "Descripcion", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
+        Job trabajo2 = new Job(usuario, "Titulo2", "Descripcion", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 2);
+        Job trabajo3 = new Job(usuario, "Titulo3", "Descripcion", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 3);
+
+        userService.addJob(trabajo1, usuario);
+        userService.addJob(trabajo2, usuario);
+        userService.addJob(trabajo3, usuario);
+
+        List <Job> queryResult = jobService.findByUsernameOrderedByPriority(usuario.getUsername());
+
+        Assert.assertFalse(queryResult.isEmpty());
+        Assert.assertEquals(1, queryResult.get(0).getPrioridad());
+        Assert.assertEquals(2, queryResult.get(1).getPrioridad());
+        Assert.assertEquals(3, queryResult.get(2).getPrioridad());
     }
 
     @AfterEach

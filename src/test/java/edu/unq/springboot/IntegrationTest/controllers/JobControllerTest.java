@@ -74,6 +74,36 @@ public class JobControllerTest {
 	}
 
 	@Test
+	void whenExistingUser_thenGetUserJobsSortedByPriorityReturnsAListOfJobsAsJSON() throws Exception {
+		List<Job> jobDataAsList = new ArrayList<Job>();
+		jobDataAsList.add(trabajo);
+		given(jobService.findByUsernameOrderedByPriority(usuarioDos.getUsername())).willReturn(jobDataAsList);
+
+		MvcResult mvcResult = mvc.perform(get("/jobs").param("username", usuarioDos.getUsername()).param("sortBy", "priority"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andReturn();
+		String expectedResponseBody = mapper.writeValueAsString(jobDataAsList);
+		String actualResponseBody = mvcResult.getResponse().getContentAsString();
+		assertThat(actualResponseBody).isEqualToIgnoringWhitespace(expectedResponseBody);
+	}
+
+	@Test
+	void whenExistingUser_thenGetUserJobsSortedByDateReturnsAListOfJobsAsJSON() throws Exception {
+		List<Job> jobDataAsList = new ArrayList<Job>();
+		jobDataAsList.add(trabajo);
+		given(jobService.findByUsernameOrderedByDate(usuarioDos.getUsername())).willReturn(jobDataAsList);
+
+		MvcResult mvcResult = mvc.perform(get("/jobs").param("username", usuarioDos.getUsername()).param("sortBy", "date"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andReturn();
+		String expectedResponseBody = mapper.writeValueAsString(jobDataAsList);
+		String actualResponseBody = mvcResult.getResponse().getContentAsString();
+		assertThat(actualResponseBody).isEqualToIgnoringWhitespace(expectedResponseBody);
+	}
+
+	@Test
 	void whenExistingJob_thenDeleteJobReturns200() throws Exception {
 		User usuario = new User("Artyom", "pass", "fname", "lname", "correo");
 		Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"),

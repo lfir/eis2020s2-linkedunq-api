@@ -19,9 +19,14 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     @Query("SELECT j FROM Job j WHERE j.id = :id")
     Job findJobById(@Param("id")Long id);
 
+    @Query("SELECT j FROM Job j WHERE j.owner.username =:username  ORDER BY j.prioridad")
+    List<Job> findByUsernameOrderedByPrioridad(@Param("username") String username);
+
+    @Query("SELECT j FROM Job j WHERE j.owner.username = ?1 ORDER BY j.fechaFinTrabajo")
+    List<Job> findByUsernameOrderedByfechaFinTrabajo(String username);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Job j WHERE j.id =:id")
     void deleteJobById(@Param("id") Long id);
-
 }

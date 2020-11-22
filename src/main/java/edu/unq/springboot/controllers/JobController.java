@@ -1,5 +1,6 @@
 package edu.unq.springboot.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.unq.springboot.models.CreateJobRequestBody;
 import edu.unq.springboot.models.Job;
 import edu.unq.springboot.models.User;
@@ -37,7 +38,7 @@ public class JobController {
 	@CrossOrigin
 	@PostMapping("/jobs/edit")
 	@ResponseBody
-	public String editJob(@RequestParam(value = "username", required = true) String username, 
+	public String editJob(@RequestParam(value = "username", required = true) String username,
 			@RequestParam(value = "id", required = true) Long id,
 			@RequestBody Job editedJob) {
 		jobService.update(username, id, editedJob); 
@@ -47,8 +48,17 @@ public class JobController {
 	@CrossOrigin
 	@GetMapping("/jobs")
 	@ResponseBody
-	public List<Job> getUserJobs(@RequestParam(value = "username", required = true) String username) {
-		return jobService.findByUsername(username);
+	public List<Job> getUserJobs(@RequestParam(value = "username") String username,
+								 @RequestParam(value = "sortBy", required = false, defaultValue = "none") String criteria) {
+
+		switch (criteria.toLowerCase()){
+			case "priority":
+				return jobService.findByUsernameOrderedByPriority(username);
+			case "date":
+				return jobService.findByUsernameOrderedByDate(username);
+			default:
+				return jobService.findByUsername(username);
+		}
 	}
 
 	@CrossOrigin
