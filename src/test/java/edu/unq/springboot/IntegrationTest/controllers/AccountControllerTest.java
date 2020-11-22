@@ -1,9 +1,15 @@
 package edu.unq.springboot.IntegrationTest.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import edu.unq.springboot.service.UserService;
-import edu.unq.springboot.models.User;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,25 +17,28 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
-@ExtendWith(SpringExtension.class)
+import edu.unq.springboot.models.User;
+import edu.unq.springboot.service.UserService;
+
+@AutoConfigureMockMvc
 @ActiveProfiles("test")
 @SpringBootTest
-@AutoConfigureMockMvc
-
 public class AccountControllerTest {
 
+	@Autowired
+	private ObjectMapper mapper;
     @Autowired
     private UserService userService;
     private User user;
@@ -44,16 +53,14 @@ public class AccountControllerTest {
     @BeforeEach
     public void beforeEach() throws Exception {
         user = new User("Jose123","123456","Jose","Rodrigues","jose@gmial.com", true);
-        user2 = new User("Jose123", "123456", "Jose", "Gonzales", "gonzales@gmail.com", false);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        user2 = new User("Jose124", "123456", "Jose", "Gonzales", "gonzales@gmail.com", false);
         jsonUser = mapper.writeValueAsString(user);
         jsonUser2 = mapper.writeValueAsString(user2);
 
     }
 
     @Test
-    public void RequestParaRegistrarUnNuevoUsuario () throws Exception {
+    public void RequestParaRegistrarUnNuevoUsuario() throws Exception {
         action = mvc.perform(post("/register")
                 .content(jsonUser)
                 .contentType(MediaType.APPLICATION_JSON));
@@ -63,7 +70,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void RegistroUnNuevoUsuarioPeroElUsuarioYaExiste () throws Exception {
+    public void RegistroUnNuevoUsuarioPeroElUsuarioYaExiste() throws Exception {
         // Registro un usuario con Jose123 como usuario
         mvc.perform(post("/register")
                 .content(jsonUser)
@@ -79,7 +86,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void RequestParaIniciarSesion () throws  Exception {
+    public void RequestParaIniciarSesion() throws Exception {
         // Registro un usuario con Jose123 como usuario
         mvc.perform(post("/register")
                 .content(jsonUser)
@@ -94,15 +101,18 @@ public class AccountControllerTest {
         action.andExpect(result);
     }
 
-    @Test void RequestParaIniciarSesionConDatosIncorrectos () throws  Exception {
+    @Test 
+    public void RequestParaIniciarSesionConDatosIncorrectos() throws Exception {
         action = mvc.perform(post("/login")
                 .content(jsonUser).contentType(jsonUser)
                 .contentType(MediaType.APPLICATION_JSON));
 
         ResultMatcher result = MockMvcResultMatchers.content().string("Error");
         action.andExpect(result);
-    }  @Test
-    public void RequestParaLink () throws  Exception {
+    }  
+    
+    @Test
+    public void RequestParaLink() throws Exception {
         // Registro un usuario con Jose123 como usuario
         mvc.perform(post("/register")
                 .content(jsonUser)
@@ -121,10 +131,9 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void RequestParaModificarElTitulo () throws  Exception {
+    public void RequestParaModificarElTitulo() throws Exception {
         User user = new User("nestor", "1234", "Nestor", "Ortigoza", "nestor@gmail.com");
 
-        ObjectMapper mapper = new ObjectMapper();
         String requestUser = mapper.writeValueAsString(user);
 
         mvc.perform(post("/register")
@@ -144,10 +153,9 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void RequestParaModificarElTituloDeUnUsuarioQueNoExiste () throws Exception {
+    public void RequestParaModificarElTituloDeUnUsuarioQueNoExiste() throws Exception {
         User user = new User("nestor", "1234", "Nestor", "Ortigoza", "nestor@gmail.com");
 
-        ObjectMapper mapper = new ObjectMapper();
         String requestUser = mapper.writeValueAsString(user);
 
         action = mvc.perform(put("/title")
@@ -159,10 +167,9 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void RequestParaObtenerElTitulo () throws Exception {
+    public void RequestParaObtenerElTitulo() throws Exception {
         User user = new User("nestor", "1234", "Nestor", "Ortigoza", "nestor@gmail.com");
 
-        ObjectMapper mapper = new ObjectMapper();
         String requestUser = mapper.writeValueAsString(user);
 
         mvc.perform(post("/register")
@@ -176,19 +183,32 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void RequestParaObtenerElTituloDeUnUsuarioQueNoExiste () throws Exception {
-
-
+    public void RequestParaObtenerElTituloDeUnUsuarioQueNoExiste() throws Exception {
         action = mvc.perform(get("/title/jose123"));
-
 
         ResultMatcher result = MockMvcResultMatchers.content().string("Username does not exist");
         action.andExpect(result);
+    }
+    
+    @Test
+    public void ConUnUsuarioNoRecruiterYUnoRecruiterAlPedirCandidatosSoloSeRecibeElNoRecruiter() throws Exception {
+    	List<User> userDataAsList = new ArrayList<User>();
+    	userDataAsList.add(this.user2);
+    	this.userService.create(this.user);
+    	this.userService.create(this.user2);
+    	
+    	MvcResult mvcResult = mvc.perform(get("/candidates"))
+        		.andExpect(status().isOk())
+        		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        		.andReturn();
+    
+    	String expectedResponseBody = mapper.writeValueAsString(userDataAsList);
+    	String actualResponseBody = mvcResult.getResponse().getContentAsString();
+    	assertThat(actualResponseBody).isEqualToIgnoringWhitespace(expectedResponseBody);
     }
 
     @AfterEach
     public void afterEach() {
         userService.deleteAll();
     }
-
 }
