@@ -152,4 +152,27 @@ public class CreateJobStepDef {
                 .andExpect(content().string(containsString("desc")));
 
     }
+
+    @When("The user request to retrieve their jobs with a non existing filter")
+    public void theUserRequestToRetrieveTheirJobsWithANonExistingFilter() throws Exception {
+        User user = new User("username", "pass", "fname", "lname", "email");
+        Job job1 = new Job(user, "job1", "desc", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 2);
+        Job job2 = new Job(user, "job2", "desc", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 3);
+
+        List<Job> jobDataAsList = new ArrayList<Job>();
+        jobDataAsList.add(job1);
+        jobDataAsList.add(job2);
+
+        given(jobService.findByUsernameOrderedByDate(user.getUsername())).willReturn(jobDataAsList);
+
+        action = mvc.perform(get("/jobs").param("username", user.getUsername()).param("sortBy", "filtro"));     //se entiende que el filtro "filtro" no existe
+
+    }
+
+    @Then("The response status is {int}")
+    public void theResponseStatusIs(int statusCode) throws Exception {
+        action.andExpect(status().is(statusCode));
+    }
 }

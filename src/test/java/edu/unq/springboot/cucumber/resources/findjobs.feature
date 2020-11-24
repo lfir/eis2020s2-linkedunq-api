@@ -10,3 +10,7 @@ Feature: Find all the jobs of a registered user
   Scenario: A request is received to get the jobs of a user ordered by date
     When The user request to retrieve they jobs ordered by date
     Then The received jobs should be ordered by date
+
+  Scenario: A bad request is received to get the jobs of a user
+    When The user request to retrieve their jobs with a non existing filter
+    Then The response status is 400
