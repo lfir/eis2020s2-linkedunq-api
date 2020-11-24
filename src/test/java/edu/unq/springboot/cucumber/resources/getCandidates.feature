@@ -16,9 +16,9 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
-Feature: Edit Jobs
+Feature: Get the list of candidates
 
-  Scenario: Set new job title
+  Scenario: Get the list of candidates when two users, a recruiter and a non recruiter are present in the application
     Given A recruiter and a non-recruiter user registered
     When I request the list of candidates
     Then The list with the non-recruiter user only is returned
