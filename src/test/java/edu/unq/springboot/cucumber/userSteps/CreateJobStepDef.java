@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.cucumber.java.en.Given;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -96,4 +97,59 @@ public class CreateJobStepDef {
             .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
     }
 
+    //  ordering jobs function tests
+
+    @When("The user request to retrieve they jobs ordered by priority")
+    public void theUserRequestToRetrieveTheyJobsOrderedByPriority() throws Exception {
+        User user = new User("username", "pass", "fname", "lname", "email");
+        Job job1 = new Job(user, "job1", "desc", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 2);
+        Job job2 = new Job(user, "job2", "desc", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 3);
+        Job job3 = new Job(user, "job3", "desc", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
+
+        List<Job> jobDataAsList = new ArrayList<Job>();
+        jobDataAsList.add(job1);
+        jobDataAsList.add(job2);
+        jobDataAsList.add(job3);
+
+        given(jobService.findByUsernameOrderedByPriority(user.getUsername())).willReturn(jobDataAsList);
+
+        action = mvc.perform(get("/jobs").param("username", user.getUsername()).param("sortBy", "priority"));
+
+    }
+
+    @Then("The received jobs should be ordered by priority")
+    public void theReceivedJobsShouldBeOrderedByPriority() throws Exception {
+        action.andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(containsString("desc")));
+    }
+
+    @When("The user request to retrieve they jobs ordered by date")
+    public void theUserRequestToRetrieveTheyJobsOrderedByDate() throws Exception {
+        User user = new User("username", "pass", "fname", "lname", "email");
+        Job job1 = new Job(user, "job1", "desc", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 2);
+        Job job2 = new Job(user, "job2", "desc", LocalDate.parse("2010-10-20"),
+                LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 3);
+
+        List<Job> jobDataAsList = new ArrayList<Job>();
+        jobDataAsList.add(job1);
+        jobDataAsList.add(job2);
+
+        given(jobService.findByUsernameOrderedByDate(user.getUsername())).willReturn(jobDataAsList);
+
+        action = mvc.perform(get("/jobs").param("username", user.getUsername()).param("sortBy", "date"));
+
+    }
+
+    @Then("The received jobs should be ordered by date")
+    public void theReceivedJobsShouldBeOrderedByDate() throws Exception {
+        action.andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(containsString("desc")));
+
+    }
 }
