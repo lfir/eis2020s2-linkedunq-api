@@ -1,12 +1,12 @@
 package edu.unq.springboot.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.unq.springboot.models.CreateJobRequestBody;
 import edu.unq.springboot.models.Job;
 import edu.unq.springboot.models.User;
 import edu.unq.springboot.service.JobService;
 import edu.unq.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,16 +48,18 @@ public class JobController {
 	@CrossOrigin
 	@GetMapping("/jobs")
 	@ResponseBody
-	public List<Job> getUserJobs(@RequestParam(value = "username") String username,
-								 @RequestParam(value = "sortBy", required = false, defaultValue = "none") String criteria) {
+	public ResponseEntity<List<Job>> getUserJobs(@RequestParam(value = "username") String username,
+												 @RequestParam(value = "sortBy", required = false, defaultValue = "none") String criteria) {
 
 		switch (criteria.toLowerCase()){
 			case "priority":
-				return jobService.findByUsernameOrderedByPriority(username);
+				return new ResponseEntity<>(jobService.findByUsernameOrderedByPriority(username), HttpStatus.OK);
 			case "date":
-				return jobService.findByUsernameOrderedByDate(username);
+				return new ResponseEntity<>(jobService.findByUsernameOrderedByDate(username), HttpStatus.OK);
+			case "none":
+				return new ResponseEntity<>(jobService.findByUsername(username), HttpStatus.OK);
 			default:
-				return jobService.findByUsername(username);
+				return ResponseEntity.badRequest().build();
 		}
 	}
 
