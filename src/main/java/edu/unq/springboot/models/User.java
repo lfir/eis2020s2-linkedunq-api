@@ -3,7 +3,6 @@ package edu.unq.springboot.models;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import sun.security.ssl.Debug;
 
 import java.io.Console;
 import java.util.ArrayList;
