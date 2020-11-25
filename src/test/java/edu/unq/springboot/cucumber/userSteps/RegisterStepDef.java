@@ -46,6 +46,11 @@ public class RegisterStepDef {
         this.user = new User("Jose123","123","Jose","Rodrigues","jose@gmial.com");
     }
 
+    @Given("A recruiter with valid data")
+    public void recruiter_with_valid_credentials() {
+        this.user = new User("Jose123","123","Jose","Rodrigues","jose@gmial.com", true);
+    }
+
     @When("The user requests to register on the site")
     public void request_to_register_a_new_user() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
@@ -55,6 +60,17 @@ public class RegisterStepDef {
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON));
 
+    }
+
+    @When("The recruiter requests to register on the site")
+    public void request_to_register_a_new_recruiter() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        String json = mapper.writeValueAsString(user);
+        if (!json.contains("\"recruiter\":true")) throw new RuntimeException("El usuario no es recruiter");
+        action = mvc.perform(post("/register")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON));
     }
 
     @When("The user login on the site")

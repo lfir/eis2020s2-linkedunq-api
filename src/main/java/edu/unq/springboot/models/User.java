@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class User {
     private String link=null;
     @Column(length = 50)
     private String title="Mi Portfolio";
-    private Boolean isRecruiter;
+    @Column
+    private Boolean isRecruiter = false;
 
     public User() {
 
@@ -41,7 +43,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.jobs = new ArrayList<Job>();
-
+        this.isRecruiter = true;
     }
 
     public User(String username, String password, String firstName, String lastName, String email, Boolean isRecruiter) {
@@ -113,11 +115,11 @@ public class User {
     public String getTitle(){return this.title;}
 
     public Boolean isRecruiter() {
-        return isRecruiter;
+        return this.isRecruiter;
     }
 
     public void setRecruiter(Boolean recruiter) {
-        isRecruiter = recruiter;
+        this.isRecruiter = recruiter;
     }
 
 }
