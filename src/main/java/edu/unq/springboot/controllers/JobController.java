@@ -66,7 +66,7 @@ public class JobController {
 	@CrossOrigin
 	@RequestMapping (method = {RequestMethod.DELETE}, value = "/job/{id}")
 	@ResponseBody
-	public ResponseEntity deleteUserJob(@PathVariable(value = "id", required = true) Long id){
+	public ResponseEntity deleteUserJob(@PathVariable(value = "id") Long id){
 		Job job = jobService.findJobById(id);
 		if (job == null){
 			return ResponseEntity.notFound().build();
