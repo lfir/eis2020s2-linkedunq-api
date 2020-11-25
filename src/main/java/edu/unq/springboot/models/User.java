@@ -49,7 +49,7 @@ public class User {
 
     public User(String username, String password, String firstName, String lastName, String email, Boolean isRecruiter) {
         this(username, password, firstName, lastName, email);
-        this.isRecruiter = true;
+        this.isRecruiter = isRecruiter;
     }
 
 
