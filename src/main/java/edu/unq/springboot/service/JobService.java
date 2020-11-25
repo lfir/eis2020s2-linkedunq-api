@@ -29,6 +29,7 @@ public class JobService {
 		j.setFechaFinTrabajo(editedJob.getFechaFinTrabajo());
 		j.setEnlace(editedJob.getEnlace());
 		j.setUrlImagen(editedJob.getUrlImagen());
+		j.setPrioridad(editedJob.getPrioridad());
 		this.jobRepository.save(j);
 	}
 
@@ -42,5 +43,13 @@ public class JobService {
 
     public Job findJobById(Long id){
         return jobRepository.findJobById(id);
+    }
+
+    public List<Job> findByUsernameOrderedByPriority(String username) {
+        return jobRepository.findByUsernameOrderedByPrioridad(username);
+    }
+
+    public List<Job> findByUsernameOrderedByDate(String username) {
+        return jobRepository.findByUsernameOrderedByfechaFinTrabajo(username);
     }
 }

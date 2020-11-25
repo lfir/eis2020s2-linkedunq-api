@@ -6,6 +6,7 @@ import edu.unq.springboot.models.User;
 import edu.unq.springboot.service.JobService;
 import edu.unq.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,7 @@ public class JobController {
 		Job job = new Job(
 			usuario, bd.getTitulo(), bd.getDescripcion(), 
 			LocalDate.parse(bd.getFechaInicioTrabajo()), LocalDate.parse(bd.getFechaFinTrabajo()),
-			bd.getEnlace(), bd.getUrlImagen()
-		);
+			bd.getEnlace(), bd.getUrlImagen(), bd.getPrioridad());
 
 		userService.addJob(job, usuario);
 
@@ -38,7 +38,7 @@ public class JobController {
 	@CrossOrigin
 	@PostMapping("/jobs/edit")
 	@ResponseBody
-	public String editJob(@RequestParam(value = "username", required = true) String username, 
+	public String editJob(@RequestParam(value = "username", required = true) String username,
 			@RequestParam(value = "id", required = true) Long id,
 			@RequestBody Job editedJob) {
 		jobService.update(username, id, editedJob); 
@@ -48,14 +48,25 @@ public class JobController {
 	@CrossOrigin
 	@GetMapping("/jobs")
 	@ResponseBody
-	public List<Job> getUserJobs(@RequestParam(value = "username", required = true) String username) {
-		return jobService.findByUsername(username);
+	public ResponseEntity<List<Job>> getUserJobs(@RequestParam(value = "username") String username,
+												 @RequestParam(value = "sortBy", required = false, defaultValue = "none") String criteria) {
+
+		switch (criteria.toLowerCase()){
+			case "priority":
+				return new ResponseEntity<>(jobService.findByUsernameOrderedByPriority(username), HttpStatus.OK);
+			case "date":
+				return new ResponseEntity<>(jobService.findByUsernameOrderedByDate(username), HttpStatus.OK);
+			case "none":
+				return new ResponseEntity<>(jobService.findByUsername(username), HttpStatus.OK);
+			default:
+				return ResponseEntity.badRequest().build();
+		}
 	}
 
 	@CrossOrigin
 	@RequestMapping (method = {RequestMethod.DELETE}, value = "/job/{id}")
 	@ResponseBody
-	public ResponseEntity deleteUserJob(@PathVariable(value = "id", required = true) Long id){
+	public ResponseEntity deleteUserJob(@PathVariable(value = "id") Long id){
 		Job job = jobService.findJobById(id);
 		if (job == null){
 			return ResponseEntity.notFound().build();

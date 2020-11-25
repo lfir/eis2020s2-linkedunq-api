@@ -9,7 +9,7 @@ public class CreateJobRequestBodyTest {
 	@Test
 	void receivedRequestGeneratesValidJobAttributes() {
 		CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01",
-				"2010-01-01", "http://www.mercadolibre.com.ar/", "http://img.us");
+				"2010-01-01", "http://www.mercadolibre.com.ar/", "http://img.us", 1);
 		assert(String.class.isInstance(bd.getUsername()));
 		assert(String.class.isInstance(bd.getDescripcion()));
 		assert(String.class.isInstance(bd.getTitulo()));
@@ -17,5 +17,6 @@ public class CreateJobRequestBodyTest {
 		assert(LocalDate.class.isInstance(LocalDate.parse(bd.getFechaFinTrabajo())));
 		assert(String.class.isInstance(bd.getEnlace()));
 		assert(String.class.isInstance(bd.getUrlImagen()));
+		assert(Integer.class.isInstance(bd.getPrioridad()));
 	}
 }

@@ -67,7 +67,7 @@ public class UserServiceTest {
     public void agregoUnTrabajoAUnUsuario() {
         User usuario = userService.findByUsername("nick");
         Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"),
-        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+        		LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
 
         usuario = userService.addJob(trabajo, usuario);
         Assert.assertEquals(1, usuario.getJobs().size());

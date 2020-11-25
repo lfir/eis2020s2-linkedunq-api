@@ -1,5 +1,8 @@
 package edu.unq.springboot.models;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 public class CreateJobRequestBody {
 	private String username;
 	private String titulo;
@@ -8,9 +11,12 @@ public class CreateJobRequestBody {
 	private String fechaFinTrabajo;
 	private String enlace;
 	private String urlImagen;
+	@Min(1)
+	@Max(3)
+	private Integer prioridad;
 	
 	public CreateJobRequestBody(String username, String titulo, String descripcion, String fechaInicioTrabajo,
-			String fechaFinTrabajo, String enlace, String urlImagen) {
+								String fechaFinTrabajo, String enlace, String urlImagen, Integer prioridad) {
 		this.username = username;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
@@ -18,6 +24,7 @@ public class CreateJobRequestBody {
 		this.fechaFinTrabajo = fechaFinTrabajo;
 		this.enlace = enlace;
 		this.urlImagen = urlImagen;
+		this.prioridad = prioridad;
 	}
 
 	public String getUsername() {
@@ -48,4 +55,7 @@ public class CreateJobRequestBody {
 		return this.urlImagen;
 	}
 
+	public Integer getPrioridad() {
+		return prioridad;
+	}
 }

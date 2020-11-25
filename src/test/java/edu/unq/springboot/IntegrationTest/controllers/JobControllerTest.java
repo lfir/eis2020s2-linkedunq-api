@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import edu.unq.springboot.models.CreateJobRequestBody;
 import edu.unq.springboot.models.Job;
@@ -40,7 +39,7 @@ public class JobControllerTest {
     private JobService jobService;
 	private User usuarioDos = new User("DosSantos", "pass", "fname", "lname", "correo");
 	private Job trabajo = new Job(usuarioDos, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"),
-			LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us");
+			LocalDate.parse("2015-08-10"), "www.link.com", "http://img.us", 1);
 
 	@Test
 	void whenValidInput_thenEditJobReturns200() throws Exception {
@@ -54,14 +53,14 @@ public class JobControllerTest {
 	@Test
 	void whenValidInput_thenCreateJobReturns200() throws Exception {
         CreateJobRequestBody bd = new CreateJobRequestBody("Jose123", "titulo", "desc", "2010-01-01",
-        		"2010-01-01", "www.link.com", "http://img.us");
+        		"2010-01-01", "www.link.com", "http://img.us", 1);
         String json = mapper.writeValueAsString(bd);
         mvc.perform(post("/jobs/create").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 
 	@Test
 	void whenExistingUser_thenGetUserJobsReturnsAListOfJobsAsJSON() throws Exception {
-    	List<Job> jobDataAsList = new ArrayList<Job>();
+    	List<Job> jobDataAsList = new ArrayList<>();
     	jobDataAsList.add(trabajo);
     	given(jobService.findByUsername(usuarioDos.getUsername())).willReturn(jobDataAsList);
 
@@ -75,10 +74,40 @@ public class JobControllerTest {
 	}
 
 	@Test
+	void whenExistingUser_thenGetUserJobsSortedByPriorityReturnsAListOfJobsAsJSON() throws Exception {
+		List<Job> jobDataAsList = new ArrayList<>();
+		jobDataAsList.add(trabajo);
+		given(jobService.findByUsernameOrderedByPriority(usuarioDos.getUsername())).willReturn(jobDataAsList);
+
+		MvcResult mvcResult = mvc.perform(get("/jobs").param("username", usuarioDos.getUsername()).param("sortBy", "priority"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andReturn();
+		String expectedResponseBody = mapper.writeValueAsString(jobDataAsList);
+		String actualResponseBody = mvcResult.getResponse().getContentAsString();
+		assertThat(actualResponseBody).isEqualToIgnoringWhitespace(expectedResponseBody);
+	}
+
+	@Test
+	void whenExistingUser_thenGetUserJobsSortedByDateReturnsAListOfJobsAsJSON() throws Exception {
+		List<Job> jobDataAsList = new ArrayList<>();
+		jobDataAsList.add(trabajo);
+		given(jobService.findByUsernameOrderedByDate(usuarioDos.getUsername())).willReturn(jobDataAsList);
+
+		MvcResult mvcResult = mvc.perform(get("/jobs").param("username", usuarioDos.getUsername()).param("sortBy", "date"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andReturn();
+		String expectedResponseBody = mapper.writeValueAsString(jobDataAsList);
+		String actualResponseBody = mvcResult.getResponse().getContentAsString();
+		assertThat(actualResponseBody).isEqualToIgnoringWhitespace(expectedResponseBody);
+	}
+
+	@Test
 	void whenExistingJob_thenDeleteJobReturns200() throws Exception {
 		User usuario = new User("Artyom", "pass", "fname", "lname", "correo");
 		Job trabajo = new Job(usuario, "Titulo", "Descripcion", LocalDate.parse("2010-10-20"),
-				LocalDate.parse("2015-08-10"), "https://link.com.ar", "http://img.us");
+				LocalDate.parse("2015-08-10"), "https://link.com.ar", "http://img.us", 1);
 		given(jobService.findJobById((long) 1)).willReturn(trabajo);
 		mvc.perform(delete("/job/1")).andExpect(status().isOk());
 
