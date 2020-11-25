@@ -41,7 +41,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.jobs = new ArrayList<Job>();
-
+        this.isRecruiter = false;
     }
 
     public User(String username, String password, String firstName, String lastName, String email, Boolean isRecruiter) {

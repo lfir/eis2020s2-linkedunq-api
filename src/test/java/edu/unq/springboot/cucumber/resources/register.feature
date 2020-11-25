@@ -12,3 +12,8 @@ Feature: Register a new User on the site
     Given A user with valid data
     When The user requests to register on the site
     Then The response status should be "200"
+
+  Scenario: A request is received to register a new recruiter
+    Given A recruiter with valid data
+    When The recruiter requests to register on the site
+    Then The response status should be "200"
